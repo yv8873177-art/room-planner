@@ -15,7 +15,7 @@ body { font-family:'Segoe UI',sans-serif; background:#2c2c2c; color:#eee; overfl
   #canvas-wrap { width:100%; height:50vh !important; flex-shrink: 0; }
 }
 
-#sidebar { width:300px; background:#1a1a1a; border-right:2px solid #333; overflow-y:auto; padding:0 0 20px 0; display:flex; flex-direction:column; }
+#sidebar { width:320px; background:#1a1a1a; border-right:2px solid #333; overflow-y:auto; padding:0 0 20px 0; display:flex; flex-direction:column; }
 #sidebar::-webkit-scrollbar { width:4px; }
 #sidebar::-webkit-scrollbar-thumb { background:#444; }
 .logo { padding:14px 16px; font-size:15px; font-weight:700; background:linear-gradient(135deg,#4285f4,#34a853); text-align:center; }
@@ -37,14 +37,14 @@ body { font-family:'Segoe UI',sans-serif; background:#2c2c2c; color:#eee; overfl
 .upload-box input { display:none; }
 #ai-status { margin:4px 12px; padding:8px; background:#1e3a1e; border:1px solid #34a853; border-radius:6px; font-size:11px; color:#34a853; display:none; }
 #ai-loading { margin:4px 12px; padding:8px; background:#1a1a2e; border:1px solid #4285f4; border-radius:6px; font-size:11px; color:#4285f4; display:none; text-align:center; }
-#tab-bar { display:flex; flex-wrap:wrap; gap:3px; padding:5px 12px; }
-.tab { padding:3px 7px; border-radius:10px; font-size:9px; cursor:pointer; background:#2a2a2a; border:1px solid #444; color:#999; }
+#tab-bar { display:flex; flex-wrap:wrap; gap:4px; padding:5px 12px; }
+.tab { padding:4px 8px; border-radius:10px; font-size:10px; cursor:pointer; background:#2a2a2a; border:1px solid #444; color:#999; }
 .tab.active { background:#4285f4; border-color:#4285f4; color:#fff; }
-#furniture-grid { display:grid; grid-template-columns:1fr 1fr; gap:5px; padding:5px 12px; max-height:220px; overflow-y:auto; }
-.furn-card { background:#2a2a2a; border:1px solid #444; border-radius:6px; padding:6px 4px; text-align:center; cursor:pointer; transition:0.2s; }
+#furniture-grid { display:grid; grid-template-columns:1fr 1fr; gap:6px; padding:6px 12px; min-height:180px; }
+.furn-card { background:#2a2a2a; border:1px solid #444; border-radius:6px; padding:8px 5px; text-align:center; cursor:pointer; transition:0.2s; }
 .furn-card:hover { border-color:#4285f4; }
-.furn-icon { font-size:16px; }
-.furn-name { color:#aaa; margin-top:2px; font-size:9px; }
+.furn-icon { font-size:18px; }
+.furn-name { color:#aaa; margin-top:2px; font-size:10px; }
 #color-picker { display:flex; flex-wrap:wrap; gap:4px; padding:4px 0; }
 .color-dot { width:18px; height:18px; border-radius:50%; cursor:pointer; border:2px solid transparent; }
 .color-dot:hover, .color-dot.active { border-color:#fff; }
@@ -163,20 +163,20 @@ body { font-family:'Segoe UI',sans-serif; background:#2c2c2c; color:#eee; overfl
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script>
 var FLIST = [
-  // ห้องนอน / นั่งเล่น
-  {id:'bed_s', name:'เตียงเดี่ยว', cat:'sleep', icon:'🛏️', w:1.2, d:2.0, h:0.6, color:0xD7CCC8, shape:'bed'},
-  {id:'bed_d', name:'เตียงคู่', cat:'sleep', icon:'🛏️', w:1.6, d:2.0, h:0.6, color:0xBCAAA4, shape:'bed'},
+  {id:'bed_s', name:'เตียงเดี่ยว', cat:'sleep', icon:'🛏️', w:1.0, d:2.0, h:0.5, color:0xD7CCC8, shape:'bed'},
+  {id:'bed_d', name:'เตียงคู่', cat:'sleep', icon:'🛏️', w:1.6, d:2.0, h:0.5, color:0xBCAAA4, shape:'bed'},
+  {id:'bed_k', name:'เตียงคิง', cat:'sleep', icon:'🛏️', w:2.0, d:2.2, h:0.55, color:0xA1887F, shape:'bed'},
   {id:'sofa2', name:'โซฟา 2 ที่', cat:'sit', icon:'🛋️', w:1.6, d:0.85, h:0.8, color:0x90A4AE, shape:'sofa'},
+  {id:'sofa3', name:'โซฟา 3 ที่', cat:'sit', icon:'🛋️', w:2.2, d:0.9, h:0.8, color:0x78909C, shape:'sofa'},
   {id:'chair', name:'เก้าอี้', cat:'sit', icon:'🪑', w:0.6, d:0.6, h:0.9, color:0x8D6E63, shape:'chair'},
-  {id:'desk', name:'โต๊ะทำงาน', cat:'table', icon:'🖥️', w:1.4, d:0.7, h:0.75, color:0x90A4AE, shape:'table'},
-  {id:'coffee', name:'โต๊ะกลาง', cat:'table', icon:'☕', w:1.1, d:0.6, h:0.4, color:0xBCAAA4, shape:'table'},
+  {id:'desk', name:'โต๊ะทำงาน', cat:'table', icon:'🖥️', w:1.4, d:0.7, h:0.76, color:0x90A4AE, shape:'table'},
+  {id:'coffee', name:'โต๊ะกลาง', cat:'table', icon:'☕', w:1.1, d:0.6, h:0.42, color:0xBCAAA4, shape:'table'},
   {id:'wardrobe', name:'ตู้เสื้อผ้า', cat:'storage', icon:'🚪', w:1.2, d:0.6, h:2.0, color:0xD7CCC8, shape:'wardrobe'},
   {id:'tv', name:'ทีวี', cat:'storage', icon:'📺', w:1.2, d:0.25, h:0.75, color:0x212121, shape:'tv'},
   {id:'plant', name:'ต้นไม้', cat:'storage', icon:'🪴', w:0.5, d:0.5, h:1.4, color:0x2E7D32, shape:'plant'},
   {id:'trash', name:'ถังขยะ', cat:'storage', icon:'🗑️', w:0.3, d:0.3, h:0.45, color:0x757575, shape:'trash'},
   {id:'bag', name:'กระเป๋า', cat:'storage', icon:'👜', w:0.35, d:0.2, h:0.3, color:0x8D6E63, shape:'bag'},
 
-  // ห้องน้ำ
   {id:'toilet', name:'โถส้วม', cat:'bath', icon:'🚽', w:0.45, d:0.7, h:0.75, color:0xFFFFFF, shape:'toilet'},
   {id:'basin', name:'อ่างล้างหน้า', cat:'bath', icon:'🚰', w:0.6, d:0.5, h:0.85, color:0xFFFFFF, shape:'basin'},
   {id:'mirror', name:'กระจก', cat:'bath', icon:'🪞', w:0.6, d:0.05, h:0.8, color:0xB0BEC5, shape:'mirror'},
@@ -188,16 +188,14 @@ var FLIST = [
   {id:'soap', name:'สบู่', cat:'bath', icon:'🧼', w:0.12, d:0.08, h:0.05, color:0x80CBC4, shape:'soap'},
   {id:'brush', name:'แปรงขัดพื้น', cat:'bath', icon:'🧹', w:0.15, d:0.1, h:0.7, color:0xFFB74D, shape:'brush'},
 
-  // ครัว
   {id:'sink', name:'อ่างล้างจาน', cat:'kitchen', icon:'🥣', w:0.9, d:0.6, h:0.85, color:0xCFD8DC, shape:'sink'},
   {id:'bar', name:'เคาน์เตอร์บาร์', cat:'kitchen', icon:'🍹', w:1.6, d:0.6, h:1.0, color:0x4E342E, shape:'bar'},
   {id:'kitchen_zone', name:'โซนทำอาหาร', cat:'kitchen', icon:'🍳', w:1.8, d:0.65, h:0.85, color:0x37474F, shape:'kitchen_zone'},
 
-  // ซักล้าง / ทำความสะอาด
   {id:'wash_m', name:'เครื่องซักผ้า', cat:'utility', icon:'🧺', w:0.65, d:0.65, h:0.85, color:0xECEFF1, shape:'wash_m'},
   {id:'rack', name:'ราวตากผ้า', cat:'utility', icon:'👔', w:1.2, d:0.5, h:1.4, color:0x90A4AE, shape:'rack'},
   {id:'basin_tub', name:'กะละมัง', cat:'utility', icon:'🪣', w:0.45, d:0.45, h:0.25, color:0x29B6F6, shape:'basin_tub'},
-  {id:'mop', name:'ไม้ถูพื้น', cat:'utility', icon:'🧹', w:0.2, d:0.2, h:1.2, color:0x8D6E63, shape:'mop'},
+  {id:'mop', name:'ไม้ถูพื้น', cat:'utility', icon:'🧹', w:0.2, d:0.2, h:1.2, color:0x8D6E63, shape:'mop'}
 ];
 
 var COLORS = [0xFFFFFF,0xF5F5F5,0x212121,0x5D4037,0x8D6E63,0xA1887F,0xD7CCC8,0xD32F2F,0xE91E63,0x9C27B0,0x3F51B5,0x2196F3,0x00BCD4,0x4CAF50,0x8BC34A,0xFFEB3B,0xFF9800,0xFF5722,0x607D8B,0x90A4AE];
@@ -340,9 +338,21 @@ function buildRoom(){
 
   var t=0.14;
   var wm=new THREE.MeshStandardMaterial({color:wc,roughness:0.7});
-  addW(roomGroup,RW,RH,t,0,RH/2,-RL/2,wm);
+  var trimMat=new THREE.MeshStandardMaterial({color:0xffffff,roughness:0.3});
+
+  // ผนังหลัง + หน้าต่าง
+  var ww2=1.2,wh2=0.9,wy2=RH*0.55,hw2=(RW-ww2)/2;
+  addW(roomGroup,hw2,RH,t,-ww2/2-hw2/2,RH/2,-RL/2,wm);
+  addW(roomGroup,hw2,RH,t,ww2/2+hw2/2,RH/2,-RL/2,wm);
+  addW(roomGroup,ww2,wy2-wh2/2,t,0,(wy2-wh2/2)/2,-RL/2,wm);
+  addW(roomGroup,ww2,RH-(wy2+wh2/2),t,0,wy2+wh2/2+(RH-(wy2+wh2/2))/2,-RL/2,wm);
+  addW(roomGroup,ww2+0.1,wh2+0.1,t+0.02,0,wy2,-RL/2,trimMat);
+  addW(roomGroup,ww2,wh2,t+0.04,0,wy2,-RL/2,new THREE.MeshStandardMaterial({color:0xaaddff,transparent:true,opacity:0.4}));
+
+  // ผนังซ้าย
   addW(roomGroup,t,RH,RL,-RW/2,RH/2,0,wm);
 
+  // ผนังขวา + ประตู
   var dw=0.9,dh=2.1,sw2=(RL-dw)/2;
   addW(roomGroup,t,RH-dh,RL,RW/2,dh+(RH-dh)/2,0,wm);
   addW(roomGroup,t,dh,sw2,RW/2,dh/2,-RL/2+sw2/2,wm);
@@ -367,7 +377,7 @@ function addFurnitureAt(data, x, z){
   var mat=new THREE.MeshStandardMaterial({color:data.color,roughness:0.65,metalness:0.05});
   buildShape(g,data,mat);
 
-  g.position.set(x, 0, z); // ติดพื้นพิกัด Y = 0
+  g.position.set(x, 0, z);
   g.name=data.id;
   g.userData=JSON.parse(JSON.stringify(data));
   g.userData.rotDeg=0; g.userData.scaleFactor=1; g.userData.objId=cnt++;
@@ -381,25 +391,30 @@ function addFurnitureAt(data, x, z){
 function buildShape(g,data,mat){
   var w=data.w,d=data.d,h=data.h,shape=data.shape;
 
-  if(shape==='table'){
-    // ท็อปโต๊ะ
+  if(shape==='bed'){
+    // ทรงเตียงเดิมดั้งเดิม
+    addM(g,new THREE.BoxGeometry(w,h*0.5,d),new THREE.MeshStandardMaterial({color:0x8D6E63,roughness:0.6}),0,h*0.25,0);
+    addM(g,new THREE.BoxGeometry(w-0.06,h*0.28,d-0.1),new THREE.MeshStandardMaterial({color:0xF5F5F5,roughness:0.9}),0,h*0.64,0);
+    addM(g,new THREE.BoxGeometry(w-0.06,h*0.08,d*0.55),mat,0,h*0.78,d*0.15);
+    addM(g,new THREE.BoxGeometry(w,h*1.1,0.12),new THREE.MeshStandardMaterial({color:0x6D4C41,roughness:0.55}),0,h*0.55,-d/2+0.06);
+    var pm=new THREE.MeshStandardMaterial({color:0xFAFAFA,roughness:0.95});
+    if(w>1.3){
+      addM(g,new THREE.BoxGeometry(w*0.36,0.1,0.3),pm,w*0.16,h*0.82,-d/2+0.24);
+      addM(g,new THREE.BoxGeometry(w*0.36,0.1,0.3),pm,-w*0.16,h*0.82,-d/2+0.24);
+    } else {
+      addM(g,new THREE.BoxGeometry(w*0.6,0.1,0.3),pm,0,h*0.82,-d/2+0.24);
+    }
+  } else if(shape==='table'){
     addM(g,new THREE.BoxGeometry(w,0.05,d),mat,0,h-0.025,0);
-    // ขาโต๊ะติดพื้นพอดี
     var lw=0.05, lh=h-0.05;
     addLegs(g,w,d,lh/2,lw,lw,lh,0x3E2723);
   } else if(shape==='plant'){
-    // กระถางต้นไม้ทรงกระบอก
     var pot=new THREE.Mesh(new THREE.CylinderGeometry(w*0.4,w*0.3,h*0.35,16),new THREE.MeshStandardMaterial({color:0x8D6E63}));
     pot.position.y=h*0.175; pot.castShadow=true; g.add(pot);
-    // ใบไม้ทรงกลมธรรมชาติ
     var leafMat=new THREE.MeshStandardMaterial({color:0x2E7D32,roughness:0.8});
     var l1=new THREE.Mesh(new THREE.SphereGeometry(w*0.4,12,12),leafMat); l1.position.y=h*0.55; g.add(l1);
     var l2=new THREE.Mesh(new THREE.SphereGeometry(w*0.32,12,12),leafMat); l2.position.set(0,h*0.75,0); g.add(l2);
     var l3=new THREE.Mesh(new THREE.SphereGeometry(w*0.25,12,12),leafMat); l3.position.set(w*0.1,h*0.65,0); g.add(l3);
-  } else if(shape==='bed'){
-    addM(g,new THREE.BoxGeometry(w,h*0.35,d),new THREE.MeshStandardMaterial({color:0x5D4037}),0,h*0.175,0);
-    addM(g,new THREE.BoxGeometry(w-0.06,h*0.3,d-0.08),new THREE.MeshStandardMaterial({color:0xFAFAFA}),0,h*0.35+h*0.15,0);
-    addM(g,new THREE.BoxGeometry(w,h*0.9,0.1),new THREE.MeshStandardMaterial({color:0x4E342E}),0,h*0.45,-d/2+0.05);
   } else if(shape==='toilet'){
     addM(g,new THREE.BoxGeometry(w*0.8,h*0.5,d*0.4),mat,0,h*0.65,-d*0.25);
     var bowl=new THREE.Mesh(new THREE.CylinderGeometry(w*0.45,w*0.35,h*0.5,16),mat); bowl.position.set(0,h*0.25,d*0.1); g.add(bowl);
@@ -428,7 +443,7 @@ function addLegs(g,w,d,centerY,lw,ld,lh,c){
   });
 }
 
-// ===== POINTER & ROTATION CONTROL =====
+// ===== POINTER CONTROL =====
 function onPointerDown(e){
   activePointers.push(e);
   if (activePointers.length === 1) {
@@ -480,9 +495,7 @@ function onPointerMove(e){
 
 function adjustStackHeight(obj) {
   var dd = obj.userData;
-  var baseY = 0; // ติดพื้นดินปกติ
-
-  // ถ้าวางวัตถุชิ้นเล็กบนตู้/โต๊ะ ให้ยกสูงขึ้น
+  var baseY = 0;
   if (['tv','lamp','plant','trash','tissue','soap','bag','mop'].includes(dd.shape)) {
     furGroup.children.forEach(function(other){
       if(other !== obj){
@@ -572,7 +585,6 @@ function setupUI(){
   document.getElementById('btn-delete').onclick=function(){if(!selObj)return;furGroup.remove(selObj);deselectObj();updateSpace();};
   document.getElementById('btn-clear').onclick=function(){while(furGroup.children.length)furGroup.remove(furGroup.children[0]);deselectObj();updateSpace();};
 
-  // ปุ่มหมุน 90 องศา
   document.getElementById('btn-rot-90').onclick=function(){
     if(!selObj)return;
     var newRot = ((selObj.userData.rotDeg || 0) + 90) % 360;
