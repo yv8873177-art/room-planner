@@ -410,7 +410,28 @@ function addFurnitureAt(data, x, z){
 function buildShape(g,data,mat){
   var w=data.w,d=data.d,h=data.h,shape=data.shape;
 
-  if(shape==='bed'){
+  if(shape==='bar' || data.id==='bar'){
+    // 1. ตัวเคาน์เตอร์หลัก
+    addM(g, new THREE.BoxGeometry(w, h*0.9, d*0.6), mat, 0, h*0.45, -d*0.15);
+    
+    // 2. ท็อปเคาน์เตอร์ขอบยื่นมน
+    var topMat = new THREE.MeshStandardMaterial({color: 0x212121, roughness: 0.2, metalness: 0.1});
+    addM(g, new THREE.BoxGeometry(w+0.12, 0.08, d+0.1), topMat, 0, h*0.9 + 0.04, 0);
+
+    // 3. เก้าอี้บาร์สตูลทรงสูง 2 ตัว
+    var stoolSeatMat = new THREE.MeshStandardMaterial({color: 0x8D6E63, roughness: 0.4});
+    var stoolLegMat = new THREE.MeshStandardMaterial({color: 0x111111, metalness: 0.8, roughness: 0.2});
+    
+    [-w*0.28, w*0.28].forEach(function(xPos){
+      var seat = new THREE.Mesh(new THREE.CylinderGeometry(0.18, 0.18, 0.06, 16), stoolSeatMat);
+      seat.position.set(xPos, h*0.6, d*0.38);
+      seat.castShadow = true; g.add(seat);
+      
+      var leg = new THREE.Mesh(new THREE.CylinderGeometry(0.025, 0.025, h*0.6, 12), stoolLegMat);
+      leg.position.set(xPos, h*0.3, d*0.38);
+      leg.castShadow = true; g.add(leg);
+    });
+  } else if(shape==='bed'){
     addM(g,new THREE.BoxGeometry(w,h*0.3,d),new THREE.MeshStandardMaterial({color:0x5D4037,roughness:0.6}),0,h*0.15,0);
     addM(g,new THREE.BoxGeometry(w-0.08,h*0.35,d-0.1),new THREE.MeshStandardMaterial({color:0xFAFAFA,roughness:0.9}),0,h*0.425,0);
     addM(g,new THREE.BoxGeometry(w-0.06,h*0.12,d*0.55),mat,0,h*0.54,d*0.2);
@@ -427,25 +448,6 @@ function buildShape(g,data,mat){
     addM(g,new THREE.BoxGeometry(w,h*0.7,d*0.25),mat,0,h*0.55,-d/2+d*0.125);
     var armL = new THREE.Mesh(new THREE.BoxGeometry(d*0.25,h*0.5,d),mat); armL.position.set(-w/2+d*0.125,h*0.35,0); g.add(armL);
     var armR = new THREE.Mesh(new THREE.BoxGeometry(d*0.25,h*0.5,d),mat); armR.position.set(w/2-d*0.125,h*0.35,0); g.add(armR);
-  } else if(shape==='bar'){
-    // ตัวเคาน์เตอร์บาร์หลัก
-    addM(g, new THREE.BoxGeometry(w, h, d*0.7), mat, 0, h/2, -d*0.15);
-    
-    // ท็อปเคาน์เตอร์บาร์ด้านบน (ยื่นออกมาขอบหนา)
-    var topMat = new THREE.MeshStandardMaterial({color: 0x212121, roughness: 0.3});
-    addM(g, new THREE.BoxGeometry(w+0.1, 0.08, d+0.1), topMat, 0, h+0.04, 0);
-
-    // เก้าอี้บาร์ทรงสูง (Bar Stool) 2 ตัวด้านหน้า
-    var stoolMat = new THREE.MeshStandardMaterial({color: 0x8D6E63, roughness: 0.5});
-    [-w*0.25, w*0.25].forEach(function(xPos){
-      var seat = new THREE.Mesh(new THREE.CylinderGeometry(0.2, 0.2, 0.06, 16), stoolMat);
-      seat.position.set(xPos, h*0.65, d*0.45);
-      seat.castShadow = true; g.add(seat);
-      
-      var leg = new THREE.Mesh(new THREE.CylinderGeometry(0.03, 0.03, h*0.65, 12), new THREE.MeshStandardMaterial({color: 0x111111, metalness: 0.8}));
-      leg.position.set(xPos, h*0.325, d*0.45);
-      leg.castShadow = true; g.add(leg);
-    });
   } else if(shape==='toilet'){
     var base=new THREE.Mesh(new THREE.CylinderGeometry(w*0.38,w*0.32,h*0.5,16),mat); base.position.set(0,h*0.25,d*0.1); g.add(base);
     addM(g,new THREE.BoxGeometry(w*0.8,0.05,d*0.5),mat,0,h*0.525,d*0.1);
