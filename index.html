@@ -388,7 +388,7 @@ function addW(group,w,h,d,px,py,pz,mat){
   group.add(m); return m;
 }
 
-// ===== ALL REALISTIC 3D MODEL GENERATORS =====
+// ===== REALISTIC 3D MODEL GENERATOR =====
 function addFurniture(data){ addFurnitureAt(data, 0, 0); }
 
 function addFurnitureAt(data, x, z){
@@ -408,25 +408,32 @@ function addFurnitureAt(data, x, z){
 }
 
 function buildShape(g,data,mat){
-  var w=data.w,d=data.d,h=data.h,shape=data.shape,id=data.id;
+  var w=data.w,d=data.d,h=data.h,shape=data.shape;
 
-  // 1. เคาน์เตอร์บาร์
-  if(shape==='bar' || id==='bar'){
-    addM(g, new THREE.BoxGeometry(w, h*0.85, d*0.55), mat, 0, h*0.425, -d*0.15);
+  if(shape==='bar' || data.id==='bar'){
+    // 1. ตัวเคาน์เตอร์หลัก
+    addM(g, new THREE.BoxGeometry(w, h*0.9, d*0.6), mat, 0, h*0.45, -d*0.15);
+    
+    // 2. ท็อปเคาน์เตอร์หินอ่อน/ไม้ ยื่นออกมาขอบมน
     var topMat = new THREE.MeshStandardMaterial({color: 0x212121, roughness: 0.2, metalness: 0.1});
-    addM(g, new THREE.BoxGeometry(w+0.12, 0.08, d+0.1), topMat, 0, h*0.85 + 0.04, 0);
+    addM(g, new THREE.BoxGeometry(w+0.12, 0.08, d+0.1), topMat, 0, h*0.9 + 0.04, 0);
 
+    // 3. เก้าอี้บาร์สตูลทรงสูงมน 2 ตัว
     var stoolSeatMat = new THREE.MeshStandardMaterial({color: 0x8D6E63, roughness: 0.4});
     var stoolLegMat = new THREE.MeshStandardMaterial({color: 0x111111, metalness: 0.8, roughness: 0.2});
+    
     [-w*0.28, w*0.28].forEach(function(xPos){
+      // เบาะนั่งทรงกระบอกโค้ง
       var seat = new THREE.Mesh(new THREE.CylinderGeometry(0.18, 0.18, 0.06, 16), stoolSeatMat);
-      seat.position.set(xPos, h*0.58, d*0.38); seat.castShadow = true; g.add(seat);
-      var leg = new THREE.Mesh(new THREE.CylinderGeometry(0.025, 0.025, h*0.58, 12), stoolLegMat);
-      leg.position.set(xPos, h*0.29, d*0.38); leg.castShadow = true; g.add(leg);
+      seat.position.set(xPos, h*0.6, d*0.38);
+      seat.castShadow = true; g.add(seat);
+      
+      // ขาเก้าอี้เหล็กทรงกลม
+      var leg = new THREE.Mesh(new THREE.CylinderGeometry(0.025, 0.025, h*0.6, 12), stoolLegMat);
+      leg.position.set(xPos, h*0.3, d*0.38);
+      leg.castShadow = true; g.add(leg);
     });
-  } 
-  // 2. เตียงนอน
-  else if(shape==='bed'){
+  } else if(shape==='bed'){
     addM(g,new THREE.BoxGeometry(w,h*0.3,d),new THREE.MeshStandardMaterial({color:0x5D4037,roughness:0.6}),0,h*0.15,0);
     addM(g,new THREE.BoxGeometry(w-0.08,h*0.35,d-0.1),new THREE.MeshStandardMaterial({color:0xFAFAFA,roughness:0.9}),0,h*0.425,0);
     addM(g,new THREE.BoxGeometry(w-0.06,h*0.12,d*0.55),mat,0,h*0.54,d*0.2);
@@ -438,170 +445,52 @@ function buildShape(g,data,mat){
     } else {
       addM(g,new THREE.BoxGeometry(w*0.65,0.12,0.35),pm,0,h*0.64,-d/2+0.28);
     }
-  } 
-  // 3. โซฟา
-  else if(shape==='sofa'){
+  } else if(shape==='sofa'){
     addM(g,new THREE.BoxGeometry(w,h*0.35,d*0.8),mat,0,h*0.25,d*0.05);
     addM(g,new THREE.BoxGeometry(w,h*0.7,d*0.25),mat,0,h*0.55,-d/2+d*0.125);
     var armL = new THREE.Mesh(new THREE.BoxGeometry(d*0.25,h*0.5,d),mat); armL.position.set(-w/2+d*0.125,h*0.35,0); g.add(armL);
     var armR = new THREE.Mesh(new THREE.BoxGeometry(d*0.25,h*0.5,d),mat); armR.position.set(w/2-d*0.125,h*0.35,0); g.add(armR);
-  } 
-  // 4. เก้าอี้
-  else if(shape==='chair'){
-    var seatC = new THREE.Mesh(new THREE.BoxGeometry(w*0.9, 0.06, d*0.9), mat); seatC.position.y = h*0.48; g.add(seatC);
-    var backC = new THREE.Mesh(new THREE.BoxGeometry(w*0.9, h*0.48, 0.06), mat); backC.position.set(0, h*0.74, -d*0.42); g.add(backC);
-    addLegs(g, w*0.8, d*0.8, h*0.24, 0.03, 0.03, h*0.48, 0x3E2723);
-  }
-  // 5. โต๊ะทำงาน
-  else if(shape==='desk'){
-    addM(g, new THREE.BoxGeometry(w, 0.06, d), mat, 0, h-0.03, 0);
-    addM(g, new THREE.BoxGeometry(w*0.35, h*0.8, d*0.9), mat, -w*0.28, h*0.4, 0);
-    addLegs(g, w, d, (h-0.06)/2, 0.04, 0.04, h-0.06, 0x3E2723);
-  }
-  // 6. โต๊ะกลาง
-  else if(shape==='coffee'){
-    addM(g, new THREE.BoxGeometry(w, 0.05, d), mat, 0, h-0.025, 0);
-    addLegs(g, w*0.85, d*0.85, (h-0.05)/2, 0.03, 0.03, h-0.05, 0x111111);
-  }
-  // 7. ตู้เสื้อผ้า
-  else if(shape==='wardrobe'){
-    addM(g, new THREE.BoxGeometry(w, h, d), mat, 0, h/2, 0);
-    var doorLine = new THREE.Mesh(new THREE.BoxGeometry(0.02, h*0.92, 0.01), new THREE.MeshStandardMaterial({color: 0x212121}));
-    doorLine.position.set(0, h/2, d/2 + 0.01); g.add(doorLine);
-    var hMat = new THREE.MeshStandardMaterial({color: 0xCFD8DC, metalness: 0.9});
-    var h1 = new THREE.Mesh(new THREE.CylinderGeometry(0.015, 0.015, 0.2, 12), hMat); h1.position.set(-0.05, h*0.5, d/2 + 0.02); g.add(h1);
-    var h2 = new THREE.Mesh(new THREE.CylinderGeometry(0.015, 0.015, 0.2, 12), hMat); h2.position.set(0.05, h*0.5, d/2 + 0.02); g.add(h2);
-  }
-  // 8. ทีวี
-  else if(shape==='tv'){
-    addM(g, new THREE.BoxGeometry(w*0.95, h*0.6, 0.05), new THREE.MeshStandardMaterial({color: 0x111111, roughness: 0.1}), 0, h*0.65, 0);
-    addM(g, new THREE.BoxGeometry(w*0.88, h*0.52, 0.01), new THREE.MeshStandardMaterial({color: 0x223344, roughness: 0.2}), 0, h*0.65, 0.03);
-    addM(g, new THREE.BoxGeometry(w, h*0.35, d), new THREE.MeshStandardMaterial({color: 0x37474F}), 0, h*0.175, 0);
-  }
-  // 9. ต้นไม้
-  else if(shape==='plant'){
+  } else if(shape==='bathtub'){
+    // ตัวอ่างภายนอกขอบมน
+    var tubOuter = new THREE.Mesh(new THREE.CylinderGeometry(w*0.5, w*0.42, h, 24), mat);
+    tubOuter.position.y = h/2; tubOuter.scale.set(1, 1, d/w); g.add(tubOuter);
+
+    // ช่องภายในอ่างลึกลงไป
+    var tubInner = new THREE.Mesh(new THREE.CylinderGeometry(w*0.42, w*0.35, h*0.88, 24), new THREE.MeshStandardMaterial({color: 0xEEEEEE, roughness: 0.1}));
+    tubInner.position.y = h*0.56; tubInner.scale.set(1, 1, d/w); g.add(tubInner);
+
+    // หัวก๊อกน้ำโครเมียม
+    var faucetMat = new THREE.MeshStandardMaterial({color: 0xCFD8DC, metalness: 0.9, roughness: 0.1});
+    var tapB = new THREE.Mesh(new THREE.CylinderGeometry(0.02, 0.02, h*0.3, 12), faucetMat);
+    tapB.position.set(0, h*0.9, -d*0.42); g.add(tapB);
+    var spoutB = new THREE.Mesh(new THREE.BoxGeometry(0.04, 0.03, 0.12), faucetMat);
+    spoutB.position.set(0, h*1.0, -d*0.36); g.add(spoutB);
+  } else if(shape==='toilet'){
+    var base=new THREE.Mesh(new THREE.CylinderGeometry(w*0.38,w*0.32,h*0.5,16),mat); base.position.set(0,h*0.25,d*0.1); g.add(base);
+    addM(g,new THREE.BoxGeometry(w*0.8,0.05,d*0.5),mat,0,h*0.525,d*0.1);
+    addM(g,new THREE.BoxGeometry(w*0.85,h*0.5,d*0.35),mat,0,h*0.65,-d*0.28);
+    addM(g,new THREE.BoxGeometry(0.12,0.04,0.08),new THREE.MeshStandardMaterial({color:0xCFD8DC,metalness:0.8}),0,h*0.92,-d*0.28);
+  } else if(shape==='basin'){
+    var bowl=new THREE.Mesh(new THREE.CylinderGeometry(w*0.4,w*0.28,h*0.3,16,1,true),new THREE.MeshStandardMaterial({color:0xFFFFFF,roughness:0.1,side:THREE.DoubleSide}));
+    bowl.position.set(0,h-0.15,0); g.add(bowl);
+    var leg=new THREE.Mesh(new THREE.CylinderGeometry(0.08,0.08,h*0.7,12),new THREE.MeshStandardMaterial({color:0xE0E0E0}));
+    leg.position.set(0,h*0.35,0); g.add(leg);
+    addM(g,new THREE.BoxGeometry(0.04,0.18,0.12),new THREE.MeshStandardMaterial({color:0xB0BEC5,metalness:0.9,roughness:0.1}),0,h+0.05,-d*0.3);
+  } else if(shape==='plant'){
     var pot=new THREE.Mesh(new THREE.CylinderGeometry(w*0.4,w*0.3,h*0.35,16),new THREE.MeshStandardMaterial({color:0x8D6E63}));
     pot.position.y=h*0.175; pot.castShadow=true; g.add(pot);
     var leafMat=new THREE.MeshStandardMaterial({color:0x2E7D32,roughness:0.8});
     var l1=new THREE.Mesh(new THREE.SphereGeometry(w*0.4,12,12),leafMat); l1.position.y=h*0.55; g.add(l1);
     var l2=new THREE.Mesh(new THREE.SphereGeometry(w*0.32,12,12),leafMat); l2.position.set(0,h*0.75,0); g.add(l2);
-  } 
-  // 10. ถังขยะ
-  else if(shape==='trash'){
+  } else if(shape==='trash'){
     var bin=new THREE.Mesh(new THREE.CylinderGeometry(w/2,w*0.4,h,16),mat); bin.position.y=h/2; g.add(bin);
-  } 
-  // 11. กระเป๋า
-  else if(shape==='bag'){
-    var bodyB = new THREE.Mesh(new THREE.BoxGeometry(w, h*0.8, d), mat); bodyB.position.y = h*0.4; g.add(bodyB);
-    var handleB = new THREE.Mesh(new THREE.TorusGeometry(w*0.2, 0.015, 8, 16, Math.PI), new THREE.MeshStandardMaterial({color: 0x212121}));
-    handleB.position.set(0, h*0.8, 0); handleB.rotation.x = Math.PI; g.add(handleB);
-  }
-  // 12. โถส้วม
-  else if(shape==='toilet'){
-    var baseT=new THREE.Mesh(new THREE.CylinderGeometry(w*0.38,w*0.32,h*0.5,16),mat); baseT.position.set(0,h*0.25,d*0.1); g.add(baseT);
-    addM(g,new THREE.BoxGeometry(w*0.8,0.05,d*0.5),mat,0,h*0.525,d*0.1);
-    addM(g,new THREE.BoxGeometry(w*0.85,h*0.5,d*0.35),mat,0,h*0.65,-d*0.28);
-    addM(g,new THREE.BoxGeometry(0.12,0.04,0.08),new THREE.MeshStandardMaterial({color:0xCFD8DC,metalness:0.8}),0,h*0.92,-d*0.28);
-  } 
-  // 13. อ่างล้างหน้า
-  else if(shape==='basin'){
-    var bowlB=new THREE.Mesh(new THREE.CylinderGeometry(w*0.4,w*0.28,h*0.3,16,1,true),new THREE.MeshStandardMaterial({color:0xFFFFFF,roughness:0.1,side:THREE.DoubleSide}));
-    bowlB.position.set(0,h-0.15,0); g.add(bowlB);
-    var legB=new THREE.Mesh(new THREE.CylinderGeometry(0.08,0.08,h*0.7,12),new THREE.MeshStandardMaterial({color:0xE0E0E0}));
-    legB.position.set(0,h*0.35,0); g.add(legB);
-    addM(g,new THREE.BoxGeometry(0.04,0.18,0.12),new THREE.MeshStandardMaterial({color:0xB0BEC5,metalness:0.9,roughness:0.1}),0,h+0.05,-d*0.3);
-  } 
-  // 14. กระจก
-  else if(shape==='mirror'){
-    addM(g, new THREE.BoxGeometry(w, h, 0.04), new THREE.MeshStandardMaterial({color: 0x424242}), 0, h/2, 0);
-    addM(g, new THREE.BoxGeometry(w*0.9, h*0.9, 0.01), new THREE.MeshStandardMaterial({color: 0xB0BEC5, roughness: 0.1, metalness: 0.9}), 0, h/2, 0.02);
-  }
-  // 15. สายฉีดชำระ
-  else if(shape==='bidet'){
-    var hose = new THREE.Mesh(new THREE.CylinderGeometry(0.015, 0.015, h*0.8, 12), new THREE.MeshStandardMaterial({color: 0xCFD8DC, metalness: 0.8}));
-    hose.position.y = h*0.4; g.add(hose);
-    var headB = new THREE.Mesh(new THREE.BoxGeometry(0.04, 0.08, 0.06), new THREE.MeshStandardMaterial({color: 0xFFFFFF}));
-    headB.position.set(0, h*0.8, 0.02); g.add(headB);
-  }
-  // 16. อ่างอาบน้ำ
-  else if(shape==='bathtub'){
-    addM(g, new THREE.BoxGeometry(w, h, d), mat, 0, h/2, 0);
-    addM(g, new THREE.BoxGeometry(w*0.82, h*0.82, d*0.85), new THREE.MeshStandardMaterial({color: 0xE0E0E0, roughness: 0.1}), 0, h*0.55, 0);
-  }
-  // 17. ฝักบัว
-  else if(shape==='shower'){
-    var poleS = new THREE.Mesh(new THREE.CylinderGeometry(0.015, 0.015, h, 12), new THREE.MeshStandardMaterial({color: 0xB0BEC5, metalness: 0.9}));
-    poleS.position.y = h/2; g.add(poleS);
-    var headS = new THREE.Mesh(new THREE.CylinderGeometry(0.08, 0.08, 0.02, 16), new THREE.MeshStandardMaterial({color: 0xB0BEC5, metalness: 0.9}));
-    headS.position.set(0, h-0.05, 0.1); g.add(headS);
-  }
-  // 18. ประตูกั้นห้องน้ำ
-  else if(shape==='bath_door'){
-    addM(g, new THREE.BoxGeometry(w, h, 0.04), new THREE.MeshStandardMaterial({color: 0xECEFF1, transparent: true, opacity: 0.5, roughness: 0.1}), 0, h/2, 0);
-    addM(g, new THREE.BoxGeometry(0.04, h, 0.06), new THREE.MeshStandardMaterial({color: 0x37474F}), -w/2+0.02, h/2, 0);
-    addM(g, new THREE.BoxGeometry(0.04, h, 0.06), new THREE.MeshStandardMaterial({color: 0x37474F}), w/2-0.02, h/2, 0);
-  }
-  // 19. ทิชชู่
-  else if(shape==='tissue'){
-    var rollT = new THREE.Mesh(new THREE.CylinderGeometry(w/2, w/2, h, 16), new THREE.MeshStandardMaterial({color: 0xFFFFFF, roughness: 0.9}));
-    rollT.position.y = h/2; g.add(rollT);
-  }
-  // 20. สบู่
-  else if(shape==='soap'){
-    addM(g, new THREE.BoxGeometry(w, h, d), new THREE.MeshStandardMaterial({color: 0x80CBC4, roughness: 0.3}), 0, h/2, 0);
-  }
-  // 21. แปรงขัดพื้น
-  else if(shape==='brush'){
-    var handleBr = new THREE.Mesh(new THREE.CylinderGeometry(0.015, 0.015, h*0.8, 12), new THREE.MeshStandardMaterial({color: 0xFFB74D}));
-    handleBr.position.y = h*0.4; g.add(handleBr);
-    addM(g, new THREE.BoxGeometry(w, h*0.2, d), new THREE.MeshStandardMaterial({color: 0x5D4037}), 0, h*0.1, 0);
-  }
-  // 22. อ่างล้างจาน
-  else if(shape==='sink'){
-    addM(g, new THREE.BoxGeometry(w, h*0.85, d), mat, 0, h*0.425, 0);
-    addM(g, new THREE.BoxGeometry(w*0.5, 0.01, d*0.6), new THREE.MeshStandardMaterial({color: 0x37474F, metalness: 0.8}), -w*0.2, h*0.86, 0);
-    var tapS = new THREE.Mesh(new THREE.CylinderGeometry(0.012, 0.012, 0.2, 12), new THREE.MeshStandardMaterial({color: 0xCFD8DC, metalness: 0.9}));
-    tapS.position.set(-w*0.2, h*0.95, -d*0.25); g.add(tapS);
-  }
-  // 23. โซนทำอาหาร
-  else if(shape==='kitchen_zone'){
-    addM(g, new THREE.BoxGeometry(w, h*0.85, d), mat, 0, h*0.425, 0);
-    var hob = new THREE.Mesh(new THREE.BoxGeometry(w*0.4, 0.01, d*0.6), new THREE.MeshStandardMaterial({color: 0x111111, roughness: 0.2}));
-    hob.position.set(w*0.25, h*0.86, 0); g.add(hob);
-    var ring1 = new THREE.Mesh(new THREE.CylinderGeometry(0.1, 0.1, 0.02, 16), new THREE.MeshStandardMaterial({color: 0x424242}));
-    ring1.position.set(w*0.25, h*0.87, 0); g.add(ring1);
-  }
-  // 24. เครื่องซักผ้า
-  else if(shape==='wash_m'){
-    addM(g, new THREE.BoxGeometry(w, h, d), mat, 0, h/2, 0);
-    var doorW = new THREE.Mesh(new THREE.CylinderGeometry(w*0.28, w*0.28, 0.02, 16), new THREE.MeshStandardMaterial({color: 0x212121, roughness: 0.1}));
-    doorW.rotation.x = Math.PI/2; doorW.position.set(0, h*0.45, d/2+0.01); g.add(doorW);
-  }
-  // 25. ราวตากผ้า
-  else if(shape==='rack'){
-    var pMat = new THREE.MeshStandardMaterial({color: 0x90A4AE, metalness: 0.8, roughness: 0.2});
-    var p1 = new THREE.Mesh(new THREE.CylinderGeometry(0.015, 0.015, h, 12), pMat); p1.position.set(-w/2+0.05, h/2, 0); g.add(p1);
-    var p2 = new THREE.Mesh(new THREE.CylinderGeometry(0.015, 0.015, h, 12), pMat); p2.position.set(w/2-0.05, h/2, 0); g.add(p2);
-    var barR = new THREE.Mesh(new THREE.CylinderGeometry(0.015, 0.015, w, 12), pMat); barR.rotation.z = Math.PI/2; barR.position.set(0, h-0.05, 0); g.add(barR);
-  }
-  // 26. กะละมัง
-  else if(shape==='basin_tub'){
-    var tubT = new THREE.Mesh(new THREE.CylinderGeometry(w*0.5, w*0.38, h, 16, 1, true), mat); tubT.position.y = h/2; g.add(tubT);
-  }
-  // 27. ไม้ถูพื้น
-  else if(shape==='mop'){
-    var handleM = new THREE.Mesh(new THREE.CylinderGeometry(0.012, 0.012, h, 12), new THREE.MeshStandardMaterial({color: 0x8D6E63}));
-    handleM.position.y = h/2; g.add(handleM);
-    addM(g, new THREE.BoxGeometry(w, 0.04, d), new THREE.MeshStandardMaterial({color: 0xFAFAFA, roughness: 0.9}), 0, 0.02, 0);
-  }
-  // 28. โต๊ะทั่วไป
-  else if(shape==='table'){
+  } else if(shape==='basin_tub'){
+    var tub=new THREE.Mesh(new THREE.CylinderGeometry(w*0.5,w*0.38,h,16,1,true),mat); tub.position.y=h/2; g.add(tub);
+  } else if(shape==='table'){
     addM(g,new THREE.BoxGeometry(w,0.05,d),mat,0,h-0.025,0);
     var lw=0.04, lh=h-0.05;
     addLegs(g,w,d,lh/2,lw,lw,lh,0x3E2723);
-  } 
-  // ทรงตั้งต้นสำหรับกรณีอื่นๆ
-  else {
+  } else {
     addM(g,new THREE.BoxGeometry(w,h,d),mat,0,h/2,0);
   }
 
