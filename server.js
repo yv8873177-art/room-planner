@@ -19,7 +19,8 @@ app.post('/api/analyze-room', async (req, res) => {
     }
 
     // เรียกใช้ gemini-2.5-flash รุ่นเสถียรล่าสุด
-    const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${API_KEY}`;
+    // ✅ แก้ไขบรรทัดนี้ใน server.js
+const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent?key=${API_KEY}`;
 
     const response = await fetch(url, {
       method: 'POST',
