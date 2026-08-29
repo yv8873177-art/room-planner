@@ -15,7 +15,7 @@ body { font-family:'Segoe UI',sans-serif; background:#2c2c2c; color:#eee; overfl
   #canvas-wrap { width:100%; height:50vh !important; flex-shrink: 0; }
 }
 
-#sidebar { width:320px; background:#1a1a1a; border-right:2px solid #333; overflow-y:auto; padding:0 0 20px 0; display:flex; flex-direction:column; }
+#sidebar { width:300px; background:#1a1a1a; border-right:2px solid #333; overflow-y:auto; padding:0 0 20px 0; display:flex; flex-direction:column; }
 #sidebar::-webkit-scrollbar { width:4px; }
 #sidebar::-webkit-scrollbar-thumb { background:#444; }
 .logo { padding:14px 16px; font-size:15px; font-weight:700; background:linear-gradient(135deg,#4285f4,#34a853); text-align:center; }
@@ -37,14 +37,25 @@ body { font-family:'Segoe UI',sans-serif; background:#2c2c2c; color:#eee; overfl
 .upload-box input { display:none; }
 #ai-status { margin:4px 12px; padding:8px; background:#1e3a1e; border:1px solid #34a853; border-radius:6px; font-size:11px; color:#34a853; display:none; }
 #ai-loading { margin:4px 12px; padding:8px; background:#1a1a2e; border:1px solid #4285f4; border-radius:6px; font-size:11px; color:#4285f4; display:none; text-align:center; }
-#tab-bar { display:flex; flex-wrap:wrap; gap:4px; padding:5px 12px; }
-.tab { padding:4px 8px; border-radius:10px; font-size:10px; cursor:pointer; background:#2a2a2a; border:1px solid #444; color:#999; }
+
+/* MODAL POPUP STYLES */
+#furn-modal { position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.7); display:none; justify-content:center; align-items:center; z-index:999; }
+.modal-content { background:#1e1e1e; border:1px solid #444; border-radius:12px; width:90%; max-width:550px; max-height:80vh; display:flex; flex-direction:column; overflow:hidden; box-shadow:0 8px 24px rgba(0,0,0,0.5); }
+.modal-header { padding:12px 16px; background:#2a2a2a; border-bottom:1px solid #333; display:flex; justify-content:space-between; align-items:center; }
+.modal-title { font-size:14px; font-weight:700; color:#4285f4; }
+.modal-close { background:none; border:none; color:#aaa; font-size:18px; cursor:pointer; }
+.modal-close:hover { color:#fff; }
+.modal-body { padding:12px; overflow-y:auto; flex:1; }
+
+#tab-bar { display:flex; flex-wrap:wrap; gap:4px; margin-bottom:12px; }
+.tab { padding:5px 10px; border-radius:12px; font-size:11px; cursor:pointer; background:#2a2a2a; border:1px solid #444; color:#999; }
 .tab.active { background:#4285f4; border-color:#4285f4; color:#fff; }
-#furniture-grid { display:grid; grid-template-columns:1fr 1fr; gap:6px; padding:6px 12px; min-height:180px; }
-.furn-card { background:#2a2a2a; border:1px solid #444; border-radius:6px; padding:8px 5px; text-align:center; cursor:pointer; transition:0.2s; }
-.furn-card:hover { border-color:#4285f4; }
-.furn-icon { font-size:18px; }
-.furn-name { color:#aaa; margin-top:2px; font-size:10px; }
+#furniture-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(100px, 1fr)); gap:8px; }
+.furn-card { background:#2a2a2a; border:1px solid #444; border-radius:8px; padding:10px 6px; text-align:center; cursor:pointer; transition:0.2s; }
+.furn-card:hover { border-color:#4285f4; background:#333; }
+.furn-icon { font-size:22px; }
+.furn-name { color:#eee; margin-top:4px; font-size:11px; }
+
 #color-picker { display:flex; flex-wrap:wrap; gap:4px; padding:4px 0; }
 .color-dot { width:18px; height:18px; border-radius:50%; cursor:pointer; border:2px solid transparent; }
 .color-dot:hover, .color-dot.active { border-color:#fff; }
@@ -108,17 +119,8 @@ body { font-family:'Segoe UI',sans-serif; background:#2c2c2c; color:#eee; overfl
     <button id="btn-build" class="btn btn-blue">สร้างห้อง</button>
     <button id="btn-auto" class="btn btn-purple">จัดอัตโนมัติ (ชิดผนัง)</button>
 
-    <div class="section-title">เฟอร์นิเจอร์ & ของใช้</div>
-    <div id="tab-bar">
-      <button class="tab active" data-cat="all">ทั้งหมด</button>
-      <button class="tab" data-cat="sleep">นอน</button>
-      <button class="tab" data-cat="sit">นั่ง</button>
-      <button class="tab" data-cat="table">โต๊ะ</button>
-      <button class="tab" data-cat="bath">ห้องน้ำ</button>
-      <button class="tab" data-cat="kitchen">ครัว</button>
-      <button class="tab" data-cat="utility">ซักล้าง</button>
-    </div>
-    <div id="furniture-grid"></div>
+    <div class="section-title">รายการเฟอร์นิเจอร์</div>
+    <button id="btn-open-modal" class="btn btn-green" style="padding:10px;font-size:13px;margin-top:6px;">📦 เลือกเฟอร์นิเจอร์ & ของใช้</button>
 
     <div class="section-title">ปรับแต่งทิศทาง & ขนาด</div>
     <div class="input-group">
@@ -157,6 +159,28 @@ body { font-family:'Segoe UI',sans-serif; background:#2c2c2c; color:#eee; overfl
     <div id="hint">แตะ/คลิก=เลือกเฟอร์ฯ | 1 นิ้วลาก=ย้าย | 2 นิ้วลาก/คลิกขวา=หมุนห้อง</div>
     <button id="photo-toggle">ซ่อน/แสดงรูป</button>
     <div id="selected-label">เลือก: <span id="sel-name">-</span></div>
+  </div>
+</div>
+
+<!-- MODAL POPUP -->
+<div id="furn-modal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <div class="modal-title">เลือกเฟอร์นิเจอร์ & ของใช้</div>
+      <button class="modal-close" id="btn-close-modal">✖</button>
+    </div>
+    <div class="modal-body">
+      <div id="tab-bar">
+        <button class="tab active" data-cat="all">ทั้งหมด</button>
+        <button class="tab" data-cat="sleep">นอน</button>
+        <button class="tab" data-cat="sit">นั่ง</button>
+        <button class="tab" data-cat="table">โต๊ะ</button>
+        <button class="tab" data-cat="bath">ห้องน้ำ</button>
+        <button class="tab" data-cat="kitchen">ครัว</button>
+        <button class="tab" data-cat="utility">ซักล้าง</button>
+      </div>
+      <div id="furniture-grid"></div>
+    </div>
   </div>
 </div>
 
@@ -210,7 +234,6 @@ var cnt=0, zones=[];
 var RW=5, RL=4, RH=2.8;
 var currentPhotoBase64=null, currentMimeType='image/jpeg';
 var activePointers = [];
-var initialPinchDist = 0;
 
 function init(){
   var cv=document.getElementById('three-canvas');
@@ -340,7 +363,6 @@ function buildRoom(){
   var wm=new THREE.MeshStandardMaterial({color:wc,roughness:0.7});
   var trimMat=new THREE.MeshStandardMaterial({color:0xffffff,roughness:0.3});
 
-  // ผนังหลัง + หน้าต่าง
   var ww2=1.2,wh2=0.9,wy2=RH*0.55,hw2=(RW-ww2)/2;
   addW(roomGroup,hw2,RH,t,-ww2/2-hw2/2,RH/2,-RL/2,wm);
   addW(roomGroup,hw2,RH,t,ww2/2+hw2/2,RH/2,-RL/2,wm);
@@ -349,10 +371,8 @@ function buildRoom(){
   addW(roomGroup,ww2+0.1,wh2+0.1,t+0.02,0,wy2,-RL/2,trimMat);
   addW(roomGroup,ww2,wh2,t+0.04,0,wy2,-RL/2,new THREE.MeshStandardMaterial({color:0xaaddff,transparent:true,opacity:0.4}));
 
-  // ผนังซ้าย
   addW(roomGroup,t,RH,RL,-RW/2,RH/2,0,wm);
 
-  // ผนังขวา + ประตู
   var dw=0.9,dh=2.1,sw2=(RL-dw)/2;
   addW(roomGroup,t,RH-dh,RL,RW/2,dh+(RH-dh)/2,0,wm);
   addW(roomGroup,t,dh,sw2,RW/2,dh/2,-RL/2+sw2/2,wm);
@@ -392,7 +412,6 @@ function buildShape(g,data,mat){
   var w=data.w,d=data.d,h=data.h,shape=data.shape;
 
   if(shape==='bed'){
-    // ทรงเตียงเดิมดั้งเดิม
     addM(g,new THREE.BoxGeometry(w,h*0.5,d),new THREE.MeshStandardMaterial({color:0x8D6E63,roughness:0.6}),0,h*0.25,0);
     addM(g,new THREE.BoxGeometry(w-0.06,h*0.28,d-0.1),new THREE.MeshStandardMaterial({color:0xF5F5F5,roughness:0.9}),0,h*0.64,0);
     addM(g,new THREE.BoxGeometry(w-0.06,h*0.08,d*0.55),mat,0,h*0.78,d*0.15);
@@ -549,6 +568,12 @@ function setupUI(){
   document.getElementById('btn-build').onclick=buildRoom;
   document.getElementById('btn-ai-analyze').onclick=analyzeWithGemini;
 
+  // POPUP MODAL CONTROL
+  var modal = document.getElementById('furn-modal');
+  document.getElementById('btn-open-modal').onclick=function(){ modal.style.display='flex'; };
+  document.getElementById('btn-close-modal').onclick=function(){ modal.style.display='none'; };
+  window.onclick=function(e){ if(e.target===modal) modal.style.display='none'; };
+
   document.getElementById('upload-photo').onchange=function(){
     if(!this.files[0])return;
     var file=this.files[0];
@@ -624,7 +649,11 @@ function buildGrid(cat){
   list.forEach(function(f){
     var c=document.createElement('div');c.className='furn-card';
     c.innerHTML='<div class="furn-icon">'+f.icon+'</div><div class="furn-name">'+f.name+'</div>';
-    c.onclick=function(){addFurniture(f);}; grid.appendChild(c);
+    c.onclick=function(){
+      addFurniture(f);
+      document.getElementById('furn-modal').style.display='none'; // ปิด Modal อัตโนมัติเมื่อกดเลือก
+    }; 
+    grid.appendChild(c);
   });
 }
 
