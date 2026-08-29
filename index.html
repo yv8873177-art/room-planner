@@ -411,24 +411,24 @@ function buildShape(g,data,mat){
   var w=data.w,d=data.d,h=data.h,shape=data.shape;
 
   if(shape==='bar' || data.id==='bar'){
-    // 1. ตัวเคาน์เตอร์หลัก
-    addM(g, new THREE.BoxGeometry(w, h*0.9, d*0.6), mat, 0, h*0.45, -d*0.15);
+    // 1. เคาน์เตอร์บาร์หลัก
+    addM(g, new THREE.BoxGeometry(w, h*0.85, d*0.55), mat, 0, h*0.425, -d*0.15);
     
-    // 2. ท็อปเคาน์เตอร์ขอบยื่นมน
+    // 2. แผ่นท็อปเคาน์เตอร์สีเข้มยื่นออกมา
     var topMat = new THREE.MeshStandardMaterial({color: 0x212121, roughness: 0.2, metalness: 0.1});
-    addM(g, new THREE.BoxGeometry(w+0.12, 0.08, d+0.1), topMat, 0, h*0.9 + 0.04, 0);
+    addM(g, new THREE.BoxGeometry(w+0.12, 0.08, d+0.1), topMat, 0, h*0.85 + 0.04, 0);
 
-    // 3. เก้าอี้บาร์สตูลทรงสูง 2 ตัว
+    // 3. เก้าอี้บาร์สตูลทรงสูงมน 2 ตัวด้านหน้า
     var stoolSeatMat = new THREE.MeshStandardMaterial({color: 0x8D6E63, roughness: 0.4});
     var stoolLegMat = new THREE.MeshStandardMaterial({color: 0x111111, metalness: 0.8, roughness: 0.2});
     
     [-w*0.28, w*0.28].forEach(function(xPos){
       var seat = new THREE.Mesh(new THREE.CylinderGeometry(0.18, 0.18, 0.06, 16), stoolSeatMat);
-      seat.position.set(xPos, h*0.6, d*0.38);
+      seat.position.set(xPos, h*0.58, d*0.38);
       seat.castShadow = true; g.add(seat);
       
-      var leg = new THREE.Mesh(new THREE.CylinderGeometry(0.025, 0.025, h*0.6, 12), stoolLegMat);
-      leg.position.set(xPos, h*0.3, d*0.38);
+      var leg = new THREE.Mesh(new THREE.CylinderGeometry(0.025, 0.025, h*0.58, 12), stoolLegMat);
+      leg.position.set(xPos, h*0.29, d*0.38);
       leg.castShadow = true; g.add(leg);
     });
   } else if(shape==='bed'){
