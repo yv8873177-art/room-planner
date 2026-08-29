@@ -244,7 +244,6 @@ function init(){
   resize();
   window.addEventListener('resize',resize);
 
-  // ระบบการทำงาน Touch/Mouse Pointer Event
   cv.addEventListener('pointerdown', onPointerDown);
   cv.addEventListener('pointermove', onPointerMove);
   cv.addEventListener('pointerup', onPointerUp);
@@ -285,7 +284,8 @@ async function analyzeWithGemini(){
   document.getElementById('btn-ai-analyze').disabled=true;
 
   try {
-    var prompt = 'วิเคราะห์รูปห้องนี้และตอบเป็น JSON เท่านั้น ห้ามมีข้อความอื่น:\n{"width":5,"length":4,"height":2.8,"wallColor":"0xf0ebe3","floorType":"wood","furniture":[{"type":"bed_s","x":0,"z":0}]}\n\nกฎ: width/length/height เป็นเมตร (ประมาณจากรูป), wallColor เลือกจาก 0xf0ebe3/0xffffff/0xe8f0fe/0x455a64, floorType เลือกจาก wood/tile/marble/carpet/dark, furniture type เลือกจาก bed_s/bed_d/bed_k/sofa2/sofa3/chair/dining4/desk/coffee/wardrobe/shelf/tv/plant/lamp/rug, x และ z เป็นตำแหน่ง (-2 ถึง 2)';
+    var doorMinX = (RW/2 - 1.2).toFixed(1);
+    var prompt = 'วิเคราะห์รูปห้องนี้และตอบเป็น JSON เท่านั้น ห้ามมีข้อความอื่น:\n{"width":3.5,"length":4,"height":2.7,"wallColor":"0xe8f0fe","floorType":"wood","furniture":[{"type":"bed_s","x":-1.0,"z":0.5}]}\n\nกฎสำคัญข้อบังคับ:\n1. width/length/height เป็นเมตร\n2. ประตูอยู่ฝั่งขวา (x = ' + (RW/2).toFixed(1) + ', z = 0) ห้ามวางเฟอร์นิเจอร์ชิ้นใดก็ตามบริเวณ x > ' + doorMinX + ' และ z อยู่ระหว่าง -1.2 ถึง 1.2 เด็ดขาด เพื่อไม่ให้ขวางทางเข้าประตู\n3. ห้ามวางเฟอร์นิเจอร์ทับซ้อนกันเด็ดขาด ตำแหน่ง x และ z ของเฟอร์นิเจอร์แต่ละชิ้นต้องห่างกันเพียงพอ';
 
     var response = await fetch('/api/analyze-room', {
       method: 'POST',
@@ -331,7 +331,12 @@ async function analyzeWithGemini(){
           var g=new THREE.Group();
           var mat=new THREE.MeshStandardMaterial({color:found.color,roughness:0.65,metalness:0.05});
           buildShape(g,found,mat);
-          g.position.set(f.x||0,found.h/2,f.z||0);
+          
+          // ตรวจสอบไม่ให้เฟอร์นิเจอร์วางขวางประตู
+          var safeX = f.x || 0;
+          if(safeX > (RW/2 - 1.2)) safeX = RW/2 - 1.5;
+
+          g.position.set(safeX, found.h/2, f.z||0);
           g.name=found.id;
           g.userData=JSON.parse(JSON.stringify(found));
           g.userData.rotDeg=0; g.userData.scaleFactor=1; g.userData.objId=cnt++;
@@ -399,7 +404,9 @@ function buildRoom(){
   addW(roomGroup,t,dh,sw2,RW/2,dh/2,-RL/2+sw2/2,wm);
   addW(roomGroup,t,dh,sw2,RW/2,dh/2,RL/2-sw2/2,wm);
   addW(roomGroup,t+0.03,dh+0.04,dw+0.06,RW/2,dh/2,0,new THREE.MeshStandardMaterial({color:0x8B4513,roughness:0.6}));
-  zones.push({x:RW/2-0.3,z:0,w:0.5,d:dw+0.5});
+  
+  // โซนสลักติดประตู ห้ามวางเฟอร์นิเจอร์
+  zones.push({x:RW/2-0.5, z:0, w:1.0, d:dw+0.8});
 
   var ww2=1.2,wh2=0.9,wy2=RH*0.55,hw2=(RW-ww2)/2;
   addW(roomGroup,hw2,RH,t,-ww2/2-hw2/2,RH/2,-RL/2,wm);
@@ -494,7 +501,7 @@ function addFurniture(data){
 
 function buildShape(g,data,mat){
   var w=data.w,d=data.d,h=data.h,shape=data.shape;
-  if(shape==='bed'){
+  if(shape==='bed Bed'){
     addM(g,new THREE.BoxGeometry(w,h*0.5,d),new THREE.MeshStandardMaterial({color:0x8D6E63,roughness:0.6}),0,0,0);
     addM(g,new THREE.BoxGeometry(w-0.06,h*0.28,d-0.1),new THREE.MeshStandardMaterial({color:0xF5F5F5,roughness:0.9}),0,h*0.39,0);
     addM(g,new THREE.BoxGeometry(w-0.06,h*0.08,d*0.55),new THREE.MeshStandardMaterial({color:mat.color,roughness:0.9}),0,h*0.53,d*0.15);
@@ -740,20 +747,37 @@ function setupUI(){
     img.style.opacity=img.style.opacity==='0'?'0.25':'0';
   };
 
+  // ปุ่มจัดอัตโนมัติแบบใหม่ (หลบประตู และไม่ทับซ้อน)
   document.getElementById('btn-auto').onclick=function(){
     var items=furGroup.children;
     if(items.length===0){alert('กรุณาเพิ่มเฟอร์นิเจอร์ก่อน');return;}
-    var cx=-RW/2+0.5,cz=-RL/2+0.5,maxD=0;
+    
+    var cx = -RW/2 + 0.6;
+    var cz = -RL/2 + 0.6;
+    var maxD = 0;
+
     for(var i=0;i<items.length;i++){
       var o=items[i],d=o.userData;
       var fw=(d.w||0.8)*o.scale.x,fd=(d.d||0.8)*o.scale.z;
-      if(cx+fw>RW/2-0.2){cx=-RW/2+0.5;cz+=maxD+0.15;maxD=0;}
-      var tx=Math.max(-RW/2+fw/2+0.1,Math.min(RW/2-fw/2-0.1,cx+fw/2));
+      
+      // หลบโซนประตูฝั่งขวา
+      if(cx+fw > (RW/2 - 1.2)){
+        cx = -RW/2 + 0.6;
+        cz += maxD + 0.3;
+        maxD = 0;
+      }
+      var tx=Math.max(-RW/2+fw/2+0.1,Math.min(RW/2-fw/2-1.2,cx+fw/2));
       var tz=Math.max(-RL/2+fd/2+0.1,Math.min(RL/2-fd/2-0.1,cz+fd/2));
-      if(!blk(tx,tz,fw,fd)){o.position.x=tx;o.position.z=tz;}
-      cx+=fw+0.15;maxD=Math.max(maxD,fd);
+      
+      if(!blk(tx,tz,fw,fd)){
+        o.position.x=tx;
+        o.position.z=tz;
+      }
+      cx += fw + 0.3;
+      maxD = Math.max(maxD,fd);
     }
-    updateSpace(); alert('จัดห้องอัตโนมัติเสร็จแล้ว!');
+    updateSpace(); 
+    alert('จัดห้องอัตโนมัติเรียบร้อย! หลบโซนประตูเรียบร้อยแล้วค่ะ');
   };
 
   document.getElementById('btn-delete').onclick=function(){if(!selObj)return;furGroup.remove(selObj);deselectObj();updateSpace();};
