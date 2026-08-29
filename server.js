@@ -4,38 +4,53 @@ const fetch = require('node-fetch');
 const path = require('path');
 
 const app = express();
-app.use(express.json({ limit: '10mb' }));
-app.use(express.static(__dirname)); // เสิร์ฟ index.html และไฟล์อื่นๆ
-
+const PORT = process.env.PORT || 3000;
 const API_KEY = process.env.GEMINI_API_KEY;
-// endpoint ที่ frontend จะเรียกแทน Gemini ตรงๆ
+
+app.use(express.json({ limit: '20mb' }));
+app.use(express.static(__dirname)); 
+
 app.post('/api/analyze-room', async (req, res) => {
   try {
     const { imageBase64, prompt, mimeType } = req.body;
 
-    const response = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent?key=${API_KEY}`,
-      {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          contents: [{
-            parts: [
-              { text: prompt },
-              { inline_data: { mime_type: mimeType, data: imageBase64 } }
-            ]
-          }]
-        })
-      }
-    );
+    if (!API_KEY) {
+      return res.status(500).json({ error: { message: 'กรุณาตั้งค่า GEMINI_API_KEY ในไฟล์ .env' } });
+    }
+
+    // เปลี่ยนเป็นชื่อโมเดลรุ่นปัจจุบันตามที่ Google API แจ้งใน Terminal
+    const url = `https://generativelanguage.googleapis.com/v1beta/models/ggemini-2.0-flash:generateContent?key=${API_KEY}`;
+
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        contents: [{
+          parts: [
+            { text: prompt },
+            { 
+              inline_data: { 
+                mime_type: mimeType || 'image/jpeg', 
+                data: imageBase64 
+              } 
+            }
+          ]
+        }]
+      })
+    });
 
     const data = await response.json();
+
+    if (!response.ok) {
+      console.error('Gemini API Error:', data);
+      return res.status(response.status).json(data);
+    }
+
     res.json(data);
   } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: 'เกิดข้อผิดพลาดในการเรียก AI' });
+    console.error('Server Error:', err);
+    res.status(500).json({ error: { message: 'เกิดข้อผิดพลาดในการเรียก AI: ' + err.message } });
   }
 });
 
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+app.listen(PORT, () => console.log(`Server running on http://localhost:${PORT}`));
