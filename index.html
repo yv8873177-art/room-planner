@@ -107,7 +107,7 @@ body { font-family:'Segoe UI',sans-serif; background:#2c2c2c; color:#eee; overfl
       </select>
     </div>
     <button id="btn-build" class="btn btn-blue">สร้างห้อง</button>
-    <button id="btn-auto" class="btn btn-purple">จัดอัตโนมัติ</button>
+    <button id="btn-auto" class="btn btn-purple">จัดอัตโนมัติ (ชิดผนัง)</button>
 
     <div class="section-title">ต่อเติมห้อง</div>
     <div class="input-group"><label>เพิ่ม</label>
@@ -174,21 +174,21 @@ body { font-family:'Segoe UI',sans-serif; background:#2c2c2c; color:#eee; overfl
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script>
 var FLIST = [
-  {id:'bed_s', name:'เตียงเดี่ยว', cat:'sleep', icon:'[เตียง]', w:1.0, d:2.0, h:0.5, color:0xD7CCC8, shape:'bed'},
-  {id:'bed_d', name:'เตียงคู่', cat:'sleep', icon:'[เตียง]', w:1.6, d:2.0, h:0.5, color:0xBCAAA4, shape:'bed'},
-  {id:'bed_k', name:'เตียงคิง', cat:'sleep', icon:'[คิง]', w:2.0, d:2.2, h:0.55, color:0xA1887F, shape:'bed'},
-  {id:'sofa2', name:'โซฟา 2 ที่', cat:'sit', icon:'[โซฟา]', w:1.6, d:0.85, h:0.8, color:0x90A4AE, shape:'sofa'},
-  {id:'sofa3', name:'โซฟา 3 ที่', cat:'sit', icon:'[โซฟา]', w:2.2, d:0.9, h:0.8, color:0x78909C, shape:'sofa'},
-  {id:'chair', name:'เก้าอี้', cat:'sit', icon:'[เก้าอี้]', w:0.6, d:0.6, h:0.9, color:0x8D6E63, shape:'chair'},
-  {id:'dining4', name:'โต๊ะกิน 4', cat:'table', icon:'[โต๊ะ]', w:1.2, d:0.8, h:0.75, color:0xA1887F, shape:'table'},
-  {id:'desk', name:'โต๊ะทำงาน', cat:'table', icon:'[โต๊ะ]', w:1.4, d:0.7, h:0.76, color:0x90A4AE, shape:'table'},
-  {id:'coffee', name:'โต๊ะกลาง', cat:'table', icon:'[กลาง]', w:1.1, d:0.6, h:0.42, color:0xBCAAA4, shape:'table'},
-  {id:'wardrobe', name:'ตู้เสื้อผ้า', cat:'storage', icon:'[ตู้]', w:1.2, d:0.6, h:2.0, color:0xD7CCC8, shape:'wardrobe'},
-  {id:'shelf', name:'ชั้นหนังสือ', cat:'storage', icon:'[ชั้น]', w:0.8, d:0.3, h:1.8, color:0xA1887F, shape:'shelf'},
-  {id:'tv', name:'ทีวี', cat:'storage', icon:'[TV]', w:1.4, d:0.08, h:0.8, color:0x212121, shape:'tv'},
-  {id:'plant', name:'ต้นไม้', cat:'storage', icon:'[ต้น]', w:0.4, d:0.4, h:1.3, color:0x388E3C, shape:'plant'},
-  {id:'lamp', name:'โคมไฟ', cat:'storage', icon:'[ไฟ]', w:0.3, d:0.3, h:1.5, color:0xFDD835, shape:'lamp'},
-  {id:'rug', name:'พรม', cat:'storage', icon:'[พรม]', w:2.0, d:1.4, h:0.02, color:0xEF9A9A, shape:'rug'},
+  {id:'bed_s', name:'เตียงเดี่ยว', cat:'sleep', icon:'🛏️', w:1.2, d:2.0, h:0.6, color:0xD7CCC8, shape:'bed'},
+  {id:'bed_d', name:'เตียงคู่', cat:'sleep', icon:'🛏️', w:1.6, d:2.0, h:0.6, color:0xBCAAA4, shape:'bed'},
+  {id:'bed_k', name:'เตียงคิง', cat:'sleep', icon:'🛏️', w:2.0, d:2.2, h:0.65, color:0xA1887F, shape:'bed'},
+  {id:'sofa2', name:'โซฟา 2 ที่', cat:'sit', icon:'🛋️', w:1.6, d:0.85, h:0.8, color:0x90A4AE, shape:'sofa'},
+  {id:'sofa3', name:'โซฟา 3 ที่', cat:'sit', icon:'🛋️', w:2.2, d:0.9, h:0.8, color:0x78909C, shape:'sofa'},
+  {id:'chair', name:'เก้าอี้', cat:'sit', icon:'🪑', w:0.6, d:0.6, h:0.9, color:0x8D6E63, shape:'chair'},
+  {id:'dining4', name:'โต๊ะกินข้าว', cat:'table', icon:'🍽️', w:1.2, d:0.8, h:0.75, color:0xA1887F, shape:'table'},
+  {id:'desk', name:'โต๊ะทำงาน', cat:'table', icon:'🖥️', w:1.4, d:0.7, h:0.76, color:0x90A4AE, shape:'table'},
+  {id:'coffee', name:'โต๊ะกลาง', cat:'table', icon:'☕', w:1.1, d:0.6, h:0.42, color:0xBCAAA4, shape:'table'},
+  {id:'wardrobe', name:'ตู้เสื้อผ้า', cat:'storage', icon:'🚪', w:1.2, d:0.6, h:2.0, color:0xD7CCC8, shape:'wardrobe'},
+  {id:'shelf', name:'ชั้นหนังสือ', cat:'storage', icon:'📚', w:0.8, d:0.3, h:1.8, color:0xA1887F, shape:'shelf'},
+  {id:'tv', name:'ทีวี', cat:'storage', icon:'📺', w:1.2, d:0.25, h:0.75, color:0x212121, shape:'tv'},
+  {id:'plant', name:'ต้นไม้', cat:'storage', icon:'🪴', w:0.4, d:0.4, h:1.3, color:0x388E3C, shape:'plant'},
+  {id:'lamp', name:'โคมไฟ', cat:'storage', icon:'💡', w:0.3, d:0.3, h:1.5, color:0xFDD835, shape:'lamp'},
+  {id:'rug', name:'พรม', cat:'storage', icon:'🧹', w:2.0, d:1.4, h:0.02, color:0xEF9A9A, shape:'rug'},
 ];
 
 var COLORS = [0xFFFFFF,0xF5F5F5,0x212121,0x5D4037,0x8D6E63,0xA1887F,0xD7CCC8,0xD32F2F,0xE91E63,0x9C27B0,0x3F51B5,0x2196F3,0x00BCD4,0x4CAF50,0x8BC34A,0xFFEB3B,0xFF9800,0xFF5722,0x607D8B,0x90A4AE];
@@ -203,7 +203,6 @@ var cnt=0, zones=[];
 var RW=5, RL=4, RH=2.8;
 var currentPhotoBase64=null, currentMimeType='image/jpeg';
 
-// Touch Handling Variables
 var activePointers = [];
 var initialPinchDist = 0;
 
@@ -224,18 +223,14 @@ function init(){
   camera.position.set(9,9,9);
   camera.lookAt(0,0,0);
 
-  scene.add(new THREE.AmbientLight(0xffffff,0.5));
-  var sun=new THREE.DirectionalLight(0xfff5e0,1.1);
+  scene.add(new THREE.AmbientLight(0xffffff,0.6));
+  var sun=new THREE.DirectionalLight(0xfff5e0,1.2);
   sun.position.set(8,12,8);
   sun.castShadow=true;
   sun.shadow.mapSize.set(1024,1024);
-  sun.shadow.camera.left=-15; sun.shadow.camera.right=15;
-  sun.shadow.camera.top=15; sun.shadow.camera.bottom=-15;
   scene.add(sun);
   var fill=new THREE.DirectionalLight(0xd0e8ff,0.4);
   fill.position.set(-6,8,-6); scene.add(fill);
-  var warm=new THREE.PointLight(0xffddaa,0.6,20);
-  warm.position.set(0,3,0); scene.add(warm);
 
   furGroup=new THREE.Group(); scene.add(furGroup);
   roomGroup=new THREE.Group(); scene.add(roomGroup);
@@ -284,8 +279,7 @@ async function analyzeWithGemini(){
   document.getElementById('btn-ai-analyze').disabled=true;
 
   try {
-    var doorMinX = (RW/2 - 1.2).toFixed(1);
-    var prompt = 'วิเคราะห์รูปห้องนี้และตอบเป็น JSON เท่านั้น ห้ามมีข้อความอื่น:\n{"width":3.5,"length":4,"height":2.7,"wallColor":"0xe8f0fe","floorType":"wood","furniture":[{"type":"bed_s","x":-1.0,"z":0.5}]}\n\nกฎสำคัญข้อบังคับ:\n1. width/length/height เป็นเมตร\n2. ประตูอยู่ฝั่งขวา (x = ' + (RW/2).toFixed(1) + ', z = 0) ห้ามวางเฟอร์นิเจอร์ชิ้นใดก็ตามบริเวณ x > ' + doorMinX + ' และ z อยู่ระหว่าง -1.2 ถึง 1.2 เด็ดขาด เพื่อไม่ให้ขวางทางเข้าประตู\n3. ห้ามวางเฟอร์นิเจอร์ทับซ้อนกันเด็ดขาด ตำแหน่ง x และ z ของเฟอร์นิเจอร์แต่ละชิ้นต้องห่างกันเพียงพอ';
+    var prompt = 'วิเคราะห์รูปห้องนี้และตอบเป็น JSON เท่านั้น ห้ามมีข้อความอื่น:\n{"width":3.5,"length":4,"height":2.7,"wallColor":"0xe8f0fe","floorType":"wood","furniture":[{"type":"bed_s","x":-1.0,"z":-1.0},{"type":"desk","x":1.0,"z":-1.0}]}\n\nกฎสำคัญข้อบังคับ:\n1. width/length/height เป็นเมตร\n2. ประตูอยู่ฝั่งขวา ห้ามวางเฟอร์นิเจอร์ขวางประตูบริเวณ x > '+(RW/2 - 1.2).toFixed(1)+'\n3. จัดวางเฟอร์นิเจอร์ชิดผนัง ห้ามวางลอยกลางห้องหรือทับซ้อนกัน';
 
     var response = await fetch('/api/analyze-room', {
       method: 'POST',
@@ -298,7 +292,6 @@ async function analyzeWithGemini(){
     });
 
     var data = await response.json();
-
     if(data.error){throw new Error(data.error.message);}
 
     var text = data.candidates[0].content.parts[0].text.trim();
@@ -310,43 +303,19 @@ async function analyzeWithGemini(){
     document.getElementById('room-length').value = result.length || 4;
     document.getElementById('room-height').value = result.height || 2.8;
 
-    var wallSel=document.getElementById('wall-color');
-    for(var i=0;i<wallSel.options.length;i++){
-      if(wallSel.options[i].value===result.wallColor){wallSel.selectedIndex=i;break;}
-    }
-
-    var floorSel=document.getElementById('floor-type');
-    for(var j=0;j<floorSel.options.length;j++){
-      if(floorSel.options[j].value===result.floorType){floorSel.selectedIndex=j;break;}
-    }
-
     buildRoom();
-
     while(furGroup.children.length)furGroup.remove(furGroup.children[0]);
 
     if(result.furniture && result.furniture.length>0){
       result.furniture.forEach(function(f){
         var found=FLIST.find(function(fl){return fl.id===f.type;});
         if(found){
-          var g=new THREE.Group();
-          var mat=new THREE.MeshStandardMaterial({color:found.color,roughness:0.65,metalness:0.05});
-          buildShape(g,found,mat);
-          
-          // ตรวจสอบไม่ให้เฟอร์นิเจอร์วางขวางประตู
-          var safeX = f.x || 0;
-          if(safeX > (RW/2 - 1.2)) safeX = RW/2 - 1.5;
-
-          g.position.set(safeX, found.h/2, f.z||0);
-          g.name=found.id;
-          g.userData=JSON.parse(JSON.stringify(found));
-          g.userData.rotDeg=0; g.userData.scaleFactor=1; g.userData.objId=cnt++;
-          furGroup.add(g);
+          addFurnitureAt(found, f.x||0, f.z||0);
         }
       });
     }
 
     updateSpace();
-
     document.getElementById('ai-loading').style.display='none';
     document.getElementById('ai-status').style.display='block';
     document.getElementById('ai-status').textContent='Gemini วิเคราะห์เสร็จ! พบเฟอร์นิเจอร์ '+(result.furniture?result.furniture.length:0)+' ชิ้น';
@@ -355,8 +324,6 @@ async function analyzeWithGemini(){
     document.getElementById('ai-loading').style.display='none';
     document.getElementById('ai-status').style.display='block';
     document.getElementById('ai-status').style.color='#ea4335';
-    document.getElementById('ai-status').style.borderColor='#ea4335';
-    document.getElementById('ai-status').style.background='#2a1010';
     document.getElementById('ai-status').textContent='Error: '+err.message;
     console.error(err);
   }
@@ -364,7 +331,7 @@ async function analyzeWithGemini(){
   document.getElementById('btn-ai-analyze').disabled=false;
 }
 
-// ===== ROOM =====
+// ===== ROOM BUILDER =====
 function buildRoom(){
   while(roomGroup.children.length)roomGroup.remove(roomGroup.children[0]);
   while(extraGroup.children.length)extraGroup.remove(extraGroup.children[0]);
@@ -377,20 +344,8 @@ function buildRoom(){
   var ft=document.getElementById('floor-type').value;
 
   var fc={wood:0xC19A6B,tile:0xF5F5F5,marble:0xEEEEEE,carpet:0x9E9E9E,dark:0x5D4037};
-  var fr={wood:0.8,tile:0.1,marble:0.05,carpet:1.0,dark:0.75};
-  var floor=new THREE.Mesh(new THREE.BoxGeometry(RW,0.08,RL),new THREE.MeshStandardMaterial({color:fc[ft]||0xC19A6B,roughness:fr[ft]||0.8}));
+  var floor=new THREE.Mesh(new THREE.BoxGeometry(RW,0.08,RL),new THREE.MeshStandardMaterial({color:fc[ft]||0xC19A6B,roughness:0.8}));
   floor.position.set(0,-0.04,0); floor.receiveShadow=true; roomGroup.add(floor);
-
-  if(ft==='wood'||ft==='dark'){
-    var lineMat=new THREE.MeshStandardMaterial({color:ft==='wood'?0xA0785A:0x4A3728,roughness:0.9});
-    for(var xi=-Math.floor(RW/0.2);xi<=Math.floor(RW/0.2);xi++){
-      var lx=xi*0.2;
-      if(Math.abs(lx)<=RW/2){
-        var line=new THREE.Mesh(new THREE.BoxGeometry(0.01,0.001,RL),lineMat);
-        line.position.set(lx,0.04,0); roomGroup.add(line);
-      }
-    }
-  }
 
   var t=0.14;
   var wm=new THREE.MeshStandardMaterial({color:wc,roughness:0.7});
@@ -404,8 +359,6 @@ function buildRoom(){
   addW(roomGroup,t,dh,sw2,RW/2,dh/2,-RL/2+sw2/2,wm);
   addW(roomGroup,t,dh,sw2,RW/2,dh/2,RL/2-sw2/2,wm);
   addW(roomGroup,t+0.03,dh+0.04,dw+0.06,RW/2,dh/2,0,new THREE.MeshStandardMaterial({color:0x8B4513,roughness:0.6}));
-  
-  // โซนสลักติดประตู ห้ามวางเฟอร์นิเจอร์
   zones.push({x:RW/2-0.5, z:0, w:1.0, d:dw+0.8});
 
   var ww2=1.2,wh2=0.9,wy2=RH*0.55,hw2=(RW-ww2)/2;
@@ -415,16 +368,6 @@ function buildRoom(){
   addW(roomGroup,ww2,RH-(wy2+wh2/2),t,0,wy2+wh2/2+(RH-(wy2+wh2/2))/2,-RL/2,wm);
   addW(roomGroup,ww2+0.1,wh2+0.1,t+0.02,0,wy2,-RL/2,trimMat);
   addW(roomGroup,ww2,wh2,t+0.04,0,wy2,-RL/2,new THREE.MeshStandardMaterial({color:0xaaddff,transparent:true,opacity:0.4}));
-  addW(roomGroup,ww2,0.03,t+0.05,0,wy2,-RL/2,trimMat);
-  addW(roomGroup,0.03,wh2,t+0.05,0,wy2,-RL/2,trimMat);
-  zones.push({x:0,z:-RL/2+0.3,w:ww2+0.5,d:0.5});
-
-  var edgeMat=new THREE.MeshStandardMaterial({color:wc,roughness:0.6});
-  addW(roomGroup,RW,0.08,0.08,0,0.04,RL/2,edgeMat);
-  addW(roomGroup,0.08,RH,0.08,-RW/2,RH/2,RL/2,edgeMat);
-  addW(roomGroup,0.08,RH,0.08,RW/2,RH/2,RL/2,edgeMat);
-  addW(roomGroup,RW,0.08,0.06,0,0.04,-RL/2,trimMat);
-  addW(roomGroup,0.06,0.08,RL,-RW/2,0.04,0,trimMat);
 
   updateSpace();
 }
@@ -435,119 +378,67 @@ function addW(group,w,h,d,px,py,pz,mat){
   group.add(m); return m;
 }
 
-function addElement(){
-  var type=document.getElementById('add-type').value;
-  var side=document.getElementById('wall-side').value;
-  var t=0.14;
-  var wc2=parseInt(document.getElementById('wall-color').value,16);
-  var wm=new THREE.MeshStandardMaterial({color:wc2,roughness:0.7});
-  var wfm=new THREE.MeshStandardMaterial({color:0xffffff,roughness:0.2});
-  var wgm=new THREE.MeshStandardMaterial({color:0xaaddff,transparent:true,opacity:0.4});
+// ===== FURNITURE BUILDER (3D SHAPES) =====
+function addFurniture(data){ addFurnitureAt(data, 0, 0); }
 
-  if(type==='window'){
-    var ww3=1.2,wh3=0.9,wy3=RH*0.55;
-    if(side==='left'||side==='right'){
-      var sx=side==='left'?-RW/2:RW/2;
-      var hw3=(RL-ww3)/2;
-      addW(extraGroup,t,RH,hw3,sx,RH/2,-ww3/2-hw3/2,wm);
-      addW(extraGroup,t,RH,hw3,sx,RH/2,ww3/2+hw3/2,wm);
-      addW(extraGroup,t,wy3-wh3/2,ww3,sx,(wy3-wh3/2)/2,0,wm);
-      addW(extraGroup,t,RH-(wy3+wh3/2),ww3,sx,wy3+wh3/2+(RH-(wy3+wh3/2))/2,0,wm);
-      addW(extraGroup,t+0.02,wh3+0.08,ww3+0.08,sx,wy3,0,wfm);
-      addW(extraGroup,t+0.04,wh3,ww3,sx,wy3,0,wgm);
-    } else {
-      var hz=(RW-ww3)/2;
-      addW(extraGroup,hz,RH,t,-ww3/2-hz/2,RH/2,-RL/2,wm);
-      addW(extraGroup,hz,RH,t,ww3/2+hz/2,RH/2,-RL/2,wm);
-      addW(extraGroup,ww3,wy3-wh3/2,t,0,(wy3-wh3/2)/2,-RL/2,wm);
-      addW(extraGroup,ww3,RH-(wy3+wh3/2),t,0,wy3+wh3/2+(RH-(wy3+wh3/2))/2,-RL/2,wm);
-      addW(extraGroup,ww3+0.08,wh3+0.08,t+0.02,0,wy3,-RL/2,wfm);
-      addW(extraGroup,ww3,wh3,t+0.04,0,wy3,-RL/2,wgm);
-    }
-    alert('เพิ่มหน้าต่างสำเร็จ!');
-  } else if(type==='door'){
-    var dw2=0.9,dh2=2.1,dfm=new THREE.MeshStandardMaterial({color:0x8B4513,roughness:0.6});
-    if(side==='back'){
-      var sw3=(RW-dw2)/2;
-      addW(extraGroup,sw3,RH,t,-dw2/2-sw3/2,RH/2,-RL/2,wm);
-      addW(extraGroup,sw3,RH,t,dw2/2+sw3/2,RH/2,-RL/2,wm);
-      addW(extraGroup,dw2,RH-dh2,t,0,dh2+(RH-dh2)/2,-RL/2,wm);
-      addW(extraGroup,dw2+0.06,dh2+0.04,t+0.03,0,dh2/2,-RL/2,dfm);
-    } else {
-      var sx2=side==='left'?-RW/2:RW/2;
-      var sw4=(RL-dw2)/2;
-      addW(extraGroup,t,RH,sw4,sx2,RH/2,-dw2/2-sw4/2,wm);
-      addW(extraGroup,t,RH,sw4,sx2,RH/2,dw2/2+sw4/2,wm);
-      addW(extraGroup,t,RH-dh2,dw2,sx2,dh2+(RH-dh2)/2,0,wm);
-      addW(extraGroup,t+0.03,dh2+0.04,dw2+0.06,sx2,dh2/2,0,dfm);
-    }
-    alert('เพิ่มประตูสำเร็จ!');
-  } else if(type==='divider'){
-    addW(extraGroup,RW*0.5,RH,0.14,0,RH/2,0,wm);
-    alert('เพิ่มผนังกั้นสำเร็จ!');
-  }
-}
-
-function addFurniture(data){
+function addFurnitureAt(data, x, z){
   var g=new THREE.Group();
   var mat=new THREE.MeshStandardMaterial({color:data.color,roughness:0.65,metalness:0.05});
   buildShape(g,data,mat);
-  g.position.set(0,data.h/2,0);
+  
+  g.position.set(x, data.h/2, z);
   g.name=data.id;
   g.userData=JSON.parse(JSON.stringify(data));
   g.userData.rotDeg=0; g.userData.scaleFactor=1; g.userData.objId=cnt++;
-  furGroup.add(g); selectObj(g); updateSpace();
+  
+  furGroup.add(g); 
+  adjustStackHeight(g);
+  selectObj(g); 
+  updateSpace();
 }
 
 function buildShape(g,data,mat){
   var w=data.w,d=data.d,h=data.h,shape=data.shape;
-  if(shape==='bed Bed'){
-    addM(g,new THREE.BoxGeometry(w,h*0.5,d),new THREE.MeshStandardMaterial({color:0x8D6E63,roughness:0.6}),0,0,0);
-    addM(g,new THREE.BoxGeometry(w-0.06,h*0.28,d-0.1),new THREE.MeshStandardMaterial({color:0xF5F5F5,roughness:0.9}),0,h*0.39,0);
-    addM(g,new THREE.BoxGeometry(w-0.06,h*0.08,d*0.55),new THREE.MeshStandardMaterial({color:mat.color,roughness:0.9}),0,h*0.53,d*0.15);
-    addM(g,new THREE.BoxGeometry(w,h*1.1,0.12),new THREE.MeshStandardMaterial({color:0x6D4C41,roughness:0.55}),0,h*0.28,-d/2+0.06);
-    var pm=new THREE.MeshStandardMaterial({color:0xFAFAFA,roughness:0.95});
-    if(w>1.3){addM(g,new THREE.BoxGeometry(w*0.36,0.1,0.3),pm,w*0.16,h*0.57,-d/2+0.24);addM(g,new THREE.BoxGeometry(w*0.36,0.1,0.3),pm,-w*0.16,h*0.57,-d/2+0.24);}
-    else{addM(g,new THREE.BoxGeometry(w*0.6,0.1,0.3),pm,0,h*0.57,-d/2+0.24);}
-    addLegs(g,w,d,-h/2,0.07,0.07,h*0.28,0x5D4037);
+  
+  if(shape==='bed'){
+    // ฐานเตียง
+    addM(g,new THREE.BoxGeometry(w,h*0.35,d),new THREE.MeshStandardMaterial({color:0x5D4037,roughness:0.6}),0,-h*0.325,0);
+    // ฟูกนอน
+    addM(g,new THREE.BoxGeometry(w-0.06,h*0.35,d-0.08),new THREE.MeshStandardMaterial({color:0xFAFAFA,roughness:0.9}),0,0,0);
+    // ผ้าห่ม
+    addM(g,new THREE.BoxGeometry(w-0.05,h*0.12,d*0.55),mat,0,h*0.12,d*0.2);
+    // หัวเตียง
+    addM(g,new THREE.BoxGeometry(w,h*0.9,0.12),new THREE.MeshStandardMaterial({color:0x4E342E,roughness:0.5}),0,h*0.1,-d/2+0.06);
+    // หมอน
+    var pm=new THREE.MeshStandardMaterial({color:0xE0E0E0,roughness:0.95});
+    if(w>1.4){
+      addM(g,new THREE.BoxGeometry(w*0.38,0.12,0.35),pm,-w*0.24,h*0.22,-d/2+0.28);
+      addM(g,new THREE.BoxGeometry(w*0.38,0.12,0.35),pm,w*0.24,h*0.22,-d/2+0.28);
+    } else {
+      addM(g,new THREE.BoxGeometry(w*0.65,0.12,0.35),pm,0,h*0.22,-d/2+0.28);
+    }
   } else if(shape==='sofa'){
-    addM(g,new THREE.BoxGeometry(w,h*0.32,d),mat,0,-h*0.34,0);
-    addM(g,new THREE.BoxGeometry(w-0.08,h*0.18,d*0.58),new THREE.MeshStandardMaterial({color:mat.color,roughness:0.9}),0,-h*0.1,0.04);
-    addM(g,new THREE.BoxGeometry(w,h*0.52,d*0.22),mat,0,h*0.04,-d/2+d*0.11);
-    var am=new THREE.Mesh(new THREE.BoxGeometry(d*0.2,h*0.38,d),mat);
-    am.position.set(w/2-d*0.1,-h*0.12,0); am.castShadow=true; g.add(am);
+    addM(g,new THREE.BoxGeometry(w,h*0.32,d),mat,0,-h*0.2,0);
+    addM(g,new THREE.BoxGeometry(w-0.1,h*0.2,d*0.6),new THREE.MeshStandardMaterial({color:mat.color,roughness:0.9}),0,0,0.05);
+    addM(g,new THREE.BoxGeometry(w,h*0.55,d*0.22),mat,0,h*0.22,-d/2+d*0.11);
+    var am=new THREE.Mesh(new THREE.BoxGeometry(d*0.2,h*0.42,d),mat);
+    am.position.set(w/2-d*0.1,0,0); g.add(am);
     var am2=am.clone(); am2.position.x=-am.position.x; g.add(am2);
-    addLegs(g,w,d,-h/2,0.07,0.07,h*0.16,0x4E342E);
-  } else if(shape==='chair'){
-    addM(g,new THREE.BoxGeometry(w,0.08,d),mat,0,0,0);
-    addM(g,new THREE.BoxGeometry(w,h*0.5,0.07),mat,0,h*0.25,-d/2+0.035);
-    addLegs(g,w,d,-h/2+0.02,0.045,0.045,h/2-0.02,0x5D4037);
   } else if(shape==='table'){
-    addM(g,new THREE.BoxGeometry(w,0.06,d),mat,0,0,0);
-    addLegs(g,w,d,-h/2,0.05,0.05,h/2,0x8D6E63);
+    addM(g,new THREE.BoxGeometry(w,0.06,d),mat,0,h/2-0.03,0);
+    addLegs(g,w,d,-0.03,0.05,0.05,h-0.06,0x3E2723);
+  } else if(shape==='tv'){
+    // หน้าจอทีวี 3D
+    addM(g,new THREE.BoxGeometry(w,h*0.75,0.06),new THREE.MeshStandardMaterial({color:0x111111,roughness:0.2}),0,h*0.4,0);
+    addM(g,new THREE.BoxGeometry(w-0.06,h*0.68,0.01),new THREE.MeshStandardMaterial({color:0x1A237E,roughness:0.05}),0,h*0.4,0.035);
+    // ขาตั้งทีวี
+    addM(g,new THREE.BoxGeometry(0.3,h*0.25,0.04),new THREE.MeshStandardMaterial({color:0x333333}),0,h*0.12,0);
+    addM(g,new THREE.BoxGeometry(0.5,0.03,0.3),new THREE.MeshStandardMaterial({color:0x333333}),0,0.015,0);
   } else if(shape==='wardrobe'){
     addM(g,new THREE.BoxGeometry(w,h,d),mat,0,0,0);
-    addM(g,new THREE.BoxGeometry(0.01,h*0.98,0.01),new THREE.MeshStandardMaterial({color:0x424242}),0,0,d/2);
-    addM(g,new THREE.BoxGeometry(0.04,0.15,0.04),new THREE.MeshStandardMaterial({color:0xC0C0C0,metalness:0.8,roughness:0.2}),w*0.22,0.05,d/2+0.025);
-    addM(g,new THREE.BoxGeometry(0.04,0.15,0.04),new THREE.MeshStandardMaterial({color:0xC0C0C0,metalness:0.8,roughness:0.2}),-w*0.22,0.05,d/2+0.025);
-  } else if(shape==='shelf'){
-    addM(g,new THREE.BoxGeometry(w,h,d),mat,0,0,0);
-    var cnt2=Math.floor(h/0.35);
-    var sm=new THREE.MeshStandardMaterial({color:0xD7CCC8,roughness:0.5});
-    for(var i=0;i<cnt2;i++){addM(g,new THREE.BoxGeometry(w-0.04,0.025,d-0.02),sm,0,-h/2+0.08+i*(h/cnt2),0);}
-  } else if(shape==='tv'){
-    addM(g,new THREE.BoxGeometry(w+0.04,h+0.04,d+0.01),new THREE.MeshStandardMaterial({color:0x212121,roughness:0.3}),0,0,0);
-    addM(g,new THREE.BoxGeometry(w,h,d+0.02),new THREE.MeshStandardMaterial({color:0x1a237e,roughness:0.05,metalness:0.3}),0,0,0);
-  } else if(shape==='plant'){
-    addM(g,new THREE.BoxGeometry(w*0.8,h*0.32,w*0.8),new THREE.MeshStandardMaterial({color:0x8D6E63,roughness:0.9}),0,-h/2+h*0.16,0);
-    addM(g,new THREE.BoxGeometry(0.05,h*0.5,0.05),new THREE.MeshStandardMaterial({color:0x5D4037}),0,-h*0.1,0);
-    addM(g,new THREE.BoxGeometry(w*0.85,h*0.55,w*0.85),new THREE.MeshStandardMaterial({color:0x388E3C,roughness:0.95}),0,h/2-h*0.22,0);
-  } else if(shape==='lamp'){
-    addM(g,new THREE.BoxGeometry(w*2,0.05,w*2),new THREE.MeshStandardMaterial({color:0x9E9E9E,metalness:0.6}),0,-h/2+0.025,0);
-    addM(g,new THREE.BoxGeometry(0.04,h*0.75,0.04),new THREE.MeshStandardMaterial({color:0x9E9E9E,metalness:0.7}),0,-h*0.1,0);
-    addM(g,new THREE.BoxGeometry(w*2.5,h*0.3,w*2.5),new THREE.MeshStandardMaterial({color:0xFFFDE7,roughness:0.8,emissive:0xFFE082,emissiveIntensity:0.5}),0,h/2-h*0.18,0);
-  } else if(shape==='rug'){
-    addM(g,new THREE.BoxGeometry(w,h,d),mat,0,0,0);
+    addM(g,new THREE.BoxGeometry(0.02,h*0.95,0.01),new THREE.MeshStandardMaterial({color:0x333333}),0,0,d/2+0.005);
+    addM(g,new THREE.BoxGeometry(0.03,0.2,0.03),new THREE.MeshStandardMaterial({color:0xD4AF37}),w*0.15,0,d/2+0.02);
+    addM(g,new THREE.BoxGeometry(0.03,0.2,0.03),new THREE.MeshStandardMaterial({color:0xD4AF37}),-w*0.15,0,d/2+0.02);
   } else {
     addM(g,new THREE.BoxGeometry(w,h,d),mat,0,0,0);
   }
@@ -555,46 +446,38 @@ function buildShape(g,data,mat){
 }
 
 function addM(g,geo,mat,x,y,z){var m=new THREE.Mesh(geo,mat);m.position.set(x,y,z);m.castShadow=true;m.receiveShadow=true;g.add(m);}
-function addLegs(g,w,d,by,lw,ld,lh,c){
+function addLegs(g,w,d,topY,lw,ld,lh,c){
   var lm=new THREE.MeshStandardMaterial({color:c,roughness:0.7});
-  [[w/2-lw-0.02,d/2-ld-0.02],[-w/2+lw+0.02,d/2-ld-0.02],[w/2-lw-0.02,-d/2+ld+0.02],[-w/2+lw+0.02,-d/2+ld+0.02]].forEach(function(p){
+  [[w/2-lw,d/2-ld],[-w/2+lw,d/2-ld],[w/2-lw,-d/2+ld],[-w/2+lw,-d/2+ld]].forEach(function(p){
     var l=new THREE.Mesh(new THREE.BoxGeometry(lw,lh,ld),lm);
-    l.position.set(p[0],by+lh/2,p[1]); l.castShadow=true; g.add(l);
+    l.position.set(p[0],topY-lh/2,p[1]); l.castShadow=true; g.add(l);
   });
 }
 
-// ===== SYSTEM TOUCH / POINTER EVENTS =====
+// ===== TOUCH & DRAG SYSTEM =====
 function onPointerDown(e){
   activePointers.push(e);
 
   if (activePointers.length === 1) {
     if (e.button === 2) {
-      isRotCam = true;
-      prevM = { x: e.clientX, y: e.clientY };
-      return;
+      isRotCam = true; prevM = { x: e.clientX, y: e.clientY }; return;
     }
-
-    updM(e);
-    rc.setFromCamera(m2d, camera);
+    updM(e); rc.setFromCamera(m2d, camera);
     var hits = rc.intersectObjects(furGroup.children, true);
 
     if (hits.length > 0) {
       var o = hits[0].object;
       while (o.parent && o.parent !== furGroup) o = o.parent;
-      selectObj(o);
-      isDrag = true;
-      dragPlane.constant = -(o.position.y - o.userData.h / 2);
+      selectObj(o); isDrag = true;
+      dragPlane.constant = -o.position.y;
       var pt = new THREE.Vector3();
       rc.ray.intersectPlane(dragPlane, pt);
       dragOff.copy(o.position).sub(pt);
     } else {
-      deselectObj();
-      isRotCam = true;
-      prevM = { x: e.clientX, y: e.clientY };
+      deselectObj(); isRotCam = true; prevM = { x: e.clientX, y: e.clientY };
     }
   } else if (activePointers.length === 2) {
-    isDrag = false;
-    isRotCam = true;
+    isDrag = false; isRotCam = true;
     prevM = {
       x: (activePointers[0].clientX + activePointers[1].clientX) / 2,
       y: (activePointers[0].clientY + activePointers[1].clientY) / 2
@@ -608,10 +491,7 @@ function onPointerDown(e){
 
 function onPointerMove(e){
   for (var i = 0; i < activePointers.length; i++) {
-    if (activePointers[i].pointerId === e.pointerId) {
-      activePointers[i] = e;
-      break;
-    }
+    if (activePointers[i].pointerId === e.pointerId) { activePointers[i] = e; break; }
   }
 
   if (activePointers.length === 2) {
@@ -620,41 +500,32 @@ function onPointerMove(e){
       activePointers[0].clientY - activePointers[1].clientY
     );
     var diff = initialPinchDist - curDist;
-    if (Math.abs(diff) > 5) {
-      zoomCamera(diff * 0.02);
-      initialPinchDist = curDist;
-    }
+    if (Math.abs(diff) > 5) { zoomCamera(diff * 0.02); initialPinchDist = curDist; }
 
     var midX = (activePointers[0].clientX + activePointers[1].clientX) / 2;
     var midY = (activePointers[0].clientY + activePointers[1].clientY) / 2;
-    var dx = (midX - prevM.x) * 0.4;
-    var dy = (midY - prevM.y) * 0.4;
+    var dx = (midX - prevM.x) * 0.4, dy = (midY - prevM.y) * 0.4;
     prevM = { x: midX, y: midY };
 
     var s = new THREE.Spherical().setFromVector3(camera.position);
     s.theta -= dx * Math.PI / 180;
     s.phi = Math.max(0.15, Math.min(Math.PI * 0.42, s.phi + dy * Math.PI / 180));
-    camera.position.setFromSpherical(s);
-    camera.lookAt(0, RH / 4, 0);
+    camera.position.setFromSpherical(s); camera.lookAt(0, RH / 4, 0);
     return;
   }
 
   if (isRotCam && activePointers.length === 1) {
-    var dx = (e.clientX - prevM.x) * 0.4;
-    var dy = (e.clientY - prevM.y) * 0.4;
+    var dx = (e.clientX - prevM.x) * 0.4, dy = (e.clientY - prevM.y) * 0.4;
     prevM = { x: e.clientX, y: e.clientY };
-
     var s = new THREE.Spherical().setFromVector3(camera.position);
     s.theta -= dx * Math.PI / 180;
     s.phi = Math.max(0.15, Math.min(Math.PI * 0.42, s.phi + dy * Math.PI / 180));
-    camera.position.setFromSpherical(s);
-    camera.lookAt(0, RH / 4, 0);
+    camera.position.setFromSpherical(s); camera.lookAt(0, RH / 4, 0);
     return;
   }
 
   if (isDrag && selObj && activePointers.length === 1) {
-    updM(e);
-    rc.setFromCamera(m2d, camera);
+    updM(e); rc.setFromCamera(m2d, camera);
     var pt = new THREE.Vector3();
     rc.ray.intersectPlane(dragPlane, pt);
     var dd = selObj.userData;
@@ -662,36 +533,46 @@ function onPointerMove(e){
     var mz = RL / 2 - (dd.d * selObj.scale.z) / 2 - 0.1;
     var cx = Math.max(-mx, Math.min(mx, pt.x + dragOff.x));
     var cz = Math.max(-mz, Math.min(mz, pt.z + dragOff.z));
-    if (!blk(cx, cz, dd.w * selObj.scale.x, dd.d * selObj.scale.z)) {
-      selObj.position.x = cx;
-      selObj.position.z = cz;
-    }
+
+    selObj.position.x = cx;
+    selObj.position.z = cz;
+
+    adjustStackHeight(selObj); // ตรวจจับวางซ้อนตู้/โต๊ะ
     updateSpace();
   }
 }
 
+function adjustStackHeight(obj) {
+  var dd = obj.userData;
+  var baseY = dd.h / 2;
+
+  // ถ้าเป็น ทีวี โคมไฟ หรือ ของประดับ สามารถวางบนตู้/โต๊ะได้
+  if (dd.shape === 'tv' || dd.shape === 'lamp' || dd.shape === 'plant') {
+    furGroup.children.forEach(function(other){
+      if(other !== obj){
+        var od = other.userData;
+        if(od.shape === 'table' || od.shape === 'wardrobe' || od.shape === 'shelf'){
+          if(Math.abs(obj.position.x - other.position.x) < (dd.w + od.w)/2 &&
+             Math.abs(obj.position.z - other.position.z) < (dd.d + od.d)/2){
+            baseY = (other.position.y + od.h/2) + dd.h/2;
+          }
+        }
+      }
+    });
+  }
+  obj.position.y = baseY;
+}
+
 function onPointerUp(e){
   activePointers = activePointers.filter(function(p){ return p.pointerId !== e.pointerId; });
-  if (activePointers.length === 0) {
-    isRotCam = false;
-    isDrag = false;
-  } else if (activePointers.length === 1) {
-    prevM = { x: activePointers[0].clientX, y: activePointers[0].clientY };
-  }
+  if (activePointers.length === 0) { isRotCam = false; isDrag = false; }
+  else if (activePointers.length === 1) { prevM = { x: activePointers[0].clientX, y: activePointers[0].clientY }; }
 }
 
 function updM(e){
   var r=renderer.domElement.getBoundingClientRect();
   m2d.x=((e.clientX-r.left)/r.width)*2-1;
   m2d.y=-((e.clientY-r.top)/r.height)*2+1;
-}
-
-function blk(x,z,fw,fd){
-  for(var i=0;i<zones.length;i++){
-    var b=zones[i];
-    if(Math.abs(x-b.x)<(fw+b.w)/2+0.1 && Math.abs(z-b.z)<(fd+b.d)/2+0.1) return true;
-  }
-  return false;
 }
 
 function selectObj(o){
@@ -714,15 +595,10 @@ function updateSpace(){
   document.getElementById('space-percent').textContent=fp+'%';
   document.getElementById('space-bar').style.width=fp+'%';
   document.getElementById('space-detail').textContent='ห้อง '+ta.toFixed(1)+' ม² | ใช้ '+ua.toFixed(1)+' ม² | ว่าง '+(ta-ua).toFixed(1)+' ม²';
-  var bar=document.getElementById('space-bar');
-  if(fp>50)bar.style.background='linear-gradient(90deg,#34a853,#52b788)';
-  else if(fp>25)bar.style.background='linear-gradient(90deg,#fbbc04,#e67e22)';
-  else bar.style.background='linear-gradient(90deg,#ea4335,#c0392b)';
 }
 
 function setupUI(){
   document.getElementById('btn-build').onclick=buildRoom;
-  document.getElementById('btn-add-element').onclick=addElement;
   document.getElementById('btn-ai-analyze').onclick=analyzeWithGemini;
 
   document.getElementById('upload-photo').onchange=function(){
@@ -732,10 +608,8 @@ function setupUI(){
     var reader=new FileReader();
     reader.onload=function(e){
       var img=document.getElementById('room-photo');
-      img.src=e.target.result;
-      img.style.display='block';
+      img.src=e.target.result; img.style.display='block';
       document.getElementById('photo-toggle').style.display='block';
-      document.getElementById('upload-label').style.borderColor='#34a853';
       document.getElementById('btn-ai-analyze').style.display='block';
       currentPhotoBase64=e.target.result.split(',')[1];
     };
@@ -747,57 +621,37 @@ function setupUI(){
     img.style.opacity=img.style.opacity==='0'?'0.25':'0';
   };
 
-  // ปุ่มจัดอัตโนมัติแบบใหม่ (หลบประตู และไม่ทับซ้อน)
+  // ระบบจัดห้องชิดผนังแบบอัตโนมัติ
   document.getElementById('btn-auto').onclick=function(){
     var items=furGroup.children;
     if(items.length===0){alert('กรุณาเพิ่มเฟอร์นิเจอร์ก่อน');return;}
-    
-    var cx = -RW/2 + 0.6;
-    var cz = -RL/2 + 0.6;
-    var maxD = 0;
 
-    for(var i=0;i<items.length;i++){
-      var o=items[i],d=o.userData;
-      var fw=(d.w||0.8)*o.scale.x,fd=(d.d||0.8)*o.scale.z;
-      
-      // หลบโซนประตูฝั่งขวา
-      if(cx+fw > (RW/2 - 1.2)){
-        cx = -RW/2 + 0.6;
-        cz += maxD + 0.3;
-        maxD = 0;
+    var backZ = -RL/2 + 0.8;
+    var leftX = -RW/2 + 0.8;
+    var rightX = RW/2 - 1.2;
+
+    items.forEach(function(o){
+      var d = o.userData;
+      if(d.cat === 'sleep'){
+        o.position.set(leftX + d.w/2, d.h/2, backZ + d.d/2);
+        o.rotation.y = 0;
+      } else if(d.cat === 'storage'){
+        o.position.set(-leftX - d.w/2, d.h/2, backZ + d.d/2);
+        o.rotation.y = 0;
+      } else if(d.cat === 'table'){
+        o.position.set(0, d.h/2, RL/2 - d.d/2 - 0.5);
+      } else if(d.shape === 'tv'){
+        o.position.set(0, d.h/2, -RL/2 + 0.3);
       }
-      var tx=Math.max(-RW/2+fw/2+0.1,Math.min(RW/2-fw/2-1.2,cx+fw/2));
-      var tz=Math.max(-RL/2+fd/2+0.1,Math.min(RL/2-fd/2-0.1,cz+fd/2));
-      
-      if(!blk(tx,tz,fw,fd)){
-        o.position.x=tx;
-        o.position.z=tz;
-      }
-      cx += fw + 0.3;
-      maxD = Math.max(maxD,fd);
-    }
-    updateSpace(); 
-    alert('จัดห้องอัตโนมัติเรียบร้อย! หลบโซนประตูเรียบร้อยแล้วค่ะ');
+      adjustStackHeight(o);
+    });
+
+    updateSpace();
+    alert('จัดห้องอัตโนมัติแบบชิดผนังเรียบร้อย!');
   };
 
   document.getElementById('btn-delete').onclick=function(){if(!selObj)return;furGroup.remove(selObj);deselectObj();updateSpace();};
-  document.getElementById('btn-clone').onclick=function(){
-    if(!selObj)return;
-    var d=selObj.userData,g=new THREE.Group();
-    var mat=new THREE.MeshStandardMaterial({color:d.color||0x8D6E63,roughness:0.65});
-    buildShape(g,d,mat);
-    g.position.set(selObj.position.x+0.5,selObj.position.y,selObj.position.z+0.5);
-    g.rotation.y=selObj.rotation.y; g.scale.copy(selObj.scale);
-    g.name=d.id; g.userData=JSON.parse(JSON.stringify(d)); g.userData.objId=cnt++;
-    furGroup.add(g); selectObj(g); updateSpace();
-  };
   document.getElementById('btn-clear').onclick=function(){while(furGroup.children.length)furGroup.remove(furGroup.children[0]);deselectObj();updateSpace();};
-  document.getElementById('btn-save').onclick=function(){
-    var layout={room:{w:RW,l:RL,h:RH},furniture:furGroup.children.map(function(o){return {id:o.name,name:o.userData.name,x:o.position.x.toFixed(2),z:o.position.z.toFixed(2),rot:o.rotation.y.toFixed(3),scale:o.scale.x.toFixed(2)};})};
-    var a=document.createElement('a');
-    a.href=URL.createObjectURL(new Blob([JSON.stringify(layout,null,2)],{type:'application/json'}));
-    a.download='room-layout.json'; a.click();
-  };
 
   document.querySelectorAll('.tab').forEach(function(t){
     t.onclick=function(){document.querySelectorAll('.tab').forEach(function(x){x.classList.remove('active');});t.classList.add('active');buildGrid(t.dataset.cat);};
@@ -839,7 +693,6 @@ function buildColors(){
     var d=document.createElement('div');d.className='color-dot';
     d.style.background='#'+h.toString(16).padStart(6,'0');
     d.onclick=function(){
-      document.querySelectorAll('.color-dot').forEach(function(x){x.classList.remove('active');});d.classList.add('active');
       if(selObj)selObj.traverse(function(m){if(m.isMesh&&!m.material.transparent)m.material=new THREE.MeshStandardMaterial({color:h,roughness:0.65});});
     };
     w.appendChild(d);
@@ -851,7 +704,6 @@ function buildTextures(){
   TEXTURES.forEach(function(t){
     var b=document.createElement('div');b.className='tex-btn';b.textContent=t.name;
     b.onclick=function(){
-      document.querySelectorAll('.tex-btn').forEach(function(x){x.classList.remove('active');});b.classList.add('active');
       if(selObj)selObj.traverse(function(m){if(m.isMesh){m.material.roughness=t.r;m.material.metalness=t.m;m.material.needsUpdate=true;}});
     };
     w.appendChild(b);
